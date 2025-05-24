@@ -85,3 +85,22 @@ export const getPostInfo = async (slug?: string) => {
         throw error;
     }
 };
+
+export const getCategories = async () => {
+    const response = await fetch(`${apiUrl}/categories`);
+    if (!response.ok) throw new Error(`Error fetching categories: ${response.statusText}`);
+
+    const data = await response.json();
+    if (!data.length) throw new Error(`No categories found`);
+
+    return data;
+}
+export const getCategoryPosts = async (id: number) => {
+    const response = await fetch(`${apiUrl}/posts?categories=${id}&_embed`);
+    if (!response.ok) throw new Error(`Error fetching posts: ${response.statusText}`);
+
+    const data = await response.json();
+    if (!data.length) throw new Error(`No posts found`);
+
+    return data;
+}

@@ -1,10 +1,11 @@
 interface HtmlContentProps {
   htmlString: string;
+  className?: string;
 }
 
-export default function HtmlContent({ htmlString }: HtmlContentProps) {
+export default function HtmlContent({ htmlString, className }: HtmlContentProps) {
   return (
-    <div
+    <section className={className}
       dangerouslySetInnerHTML={{ __html: htmlString }
       }
     />

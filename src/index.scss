@@ -1,76 +1,203 @@
-
 $spacing: 10px;
 
-*{
-  box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  user-select: none;
-}
-body{
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0;
+// Variables de colores inspiradas en el menú de MGS3
+$color-bg: #0b1d0b;
+$color-accent: #00ff88;
+$color-text: #a0ffa0;
+$color-muted: #4a6a4a;
+$color-border: #1a2d1a;
+
+// Tipografía
+$font-family: 'Courier New', Courier, monospace;
+$font-size-base: 16px;
+
+// Reset y base
+* {
+    box-sizing: border-box;
+    font-family: $font-family;
+    user-select: none;
 }
 
-.post_container{
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
+body {
+    background-color: $color-bg;
+    font-size: $font-size-base;
+    color: $color-text;
+    margin: 0;
+    padding: 2rem;
+}
+
+// Textos generales
+h1,
+h2,
+h3,
+h4 {
+    color: $color-accent;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+p {
+    line-height: 1.5;
+    color: $color-text;
+}
+
+.muted {
+    color: $color-muted;
+}
+
+// Inputs y selects
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    background-color: transparent;
+    border: 1px solid $color-border;
+    color: $color-text;
+    padding: 0.5rem;
+    font-size: $font-size-base;
+    width: 100%;
+
+    &:focus {
+        outline: none;
+        border-color: $color-accent;
+        box-shadow: 0 0 5px $color-accent;
+    }
+}
+
+// Botón estilo MGS
+.button-mgs {
+    background-color: transparent;
+    color: $color-accent;
+    border: 1px solid $color-accent;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+        background-color: $color-accent;
+        color: $color-bg;
+    }
+
+    &:active {
+        background-color: darken($color-accent, 10%);
+    }
+}
+
+// Brillo para selección
+.glow {
+    text-shadow: 0 0 5px $color-accent, 0 0 10px $color-accent;
+}
+
+// Contenedor tipo panel
+.panel {
+    border: 1px solid $color-border;
+    padding: 1rem;
+    background-color: rgba(11, 29, 11, 0.8);
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
+}
+
+// Estilo para listado de posts
+.post_container {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
     flex-direction: row;
 }
 
-.container{
+// Contenedor principal
+.container {
     max-width: 80%;
     margin: 3em auto;
 }
 
-.post{
-
-    border-radius: 1em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+// Estilos del post
+.post {
+    background-color: rgba(15, 25, 15, 0.85);
+    border: 1px solid $color-border;
+    border-radius: 0.2em;
+    box-shadow: 0 0 8px rgba(0, 255, 136, 0.15);
     margin: $spacing;
     padding: $spacing;
     max-width: calc(33% - $spacing * 4);
 
-    &_image{
+    &_image {
         max-width: 100%;
-        border-radius: .5em;
+        border-radius: 0.2em;
+        border: 1px solid $color-border;
     }
-    &_title{
+
+    &_title {
         font-size: 1rem;
-        color: #333;
+        color: $color-accent;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        text-shadow: 0 0 3px $color-accent;
     }
-    &_content *{
-        font-size: .8rem;
-        color: #666;
-        & > p{
-        
+
+    &_content * {
+        font-size: 0.8rem;
+        color: $color-text;
+
+        &>p {
             text-overflow: ellipsis;
             max-height: 5em;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
-     
         }
-        
     }
-    &_date{
-        font-size: .8rem;
-        color: #ccc;
+
+    &_date {
+        font-size: 0.7rem;
+        color: $color-muted;
+        margin-top: 0.5rem;
     }
-    &_detail{
-        .post_title{
-            font-size: 3rem;
+
+    &_detail {
+        .post_title {
+            font-size: 2rem;
+            color: $color-accent;
+            text-shadow: 0 0 5px $color-accent;
         }
-        .post_content *{
-            & > p{
+
+        .post_content * {
+            &>p {
                 font-size: 1rem;
-                color: #333;
+                color: $color-text;
                 overflow: visible;
                 display: block;
             }
-           
+        }
+    }
+}
+.category {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+
+    li {
+        display: inline-block;
+        margin-right: 1rem;
+
+        a {
+            color: $color-text;
+            text-decoration: none;
+            padding: 0.3em 0.8em;
+            border-radius: 0.2em;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        &.active a {
+            background-color: $color-accent;
+            color: $color-bg;
+            font-weight: bold;
+            box-shadow: 0 0 8px $color-accent;
+            text-shadow: 0 0 3px $color-accent;
         }
     }
 }
