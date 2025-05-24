@@ -5,7 +5,7 @@ interface HtmlContentProps {
 
 export default function HtmlContent({ htmlString, className }: HtmlContentProps) {
   return (
-    <section className={className}
+    <div className={className}
       dangerouslySetInnerHTML={{ __html: htmlString }
       }
     />
