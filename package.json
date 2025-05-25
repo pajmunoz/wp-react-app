@@ -1,7 +1,7 @@
 {
   "name": "wp-react-app",
   "version": "0.1.0",
-  "homepage": "https://pajmunoz.github.io/wp-react-app",
+  "homepage": "/",
   "private": true,
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -22,7 +22,7 @@ export const getPosts = async ({ perPage = 10 }: { perPage?: number }) => {
 
     const data = await response.json();
     if (!data.length) throw new Error(`No posts found`);
-    console.log("Fetched posts:", data);
+    //console.log("Fetched posts:", data);
 
     const posts = data.map((post: {
         _embedded: any; title: { rendered: any; }; excerpt: { rendered: any; }; content: { rendered: any; }; date: any; slug: any; id: number
@@ -64,7 +64,7 @@ export const getPostInfo = async (slug?: string) => {
 
         // La respuesta es un objeto, no un array
         const data = await response.json();
-        console.log("Fetched post:", data);
+        //console.log("Fetched post:", data);
         const post = data[0];
         // Extraer datos con validación
 
