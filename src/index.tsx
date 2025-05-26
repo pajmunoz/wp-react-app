@@ -7,23 +7,27 @@ import Home from './pages/Home/Home';
 import Layout from './components/Layout/Layout';
 import About from './pages/About/About';
 import Detail from './pages/Detail/Detail';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <BrowserRouter basename="/">
-      <Routes>
-        <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path='home' element={<Home />} />
-          <Route path='project/:slug' element={<Detail />} />
-          <Route path='about' element={<About />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <React.StrictMode>
+      <BrowserRouter basename="/">
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path='home' element={<Home />} />
+            <Route path='project/:slug' element={<Detail />} />
+            <Route path='about' element={<About />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

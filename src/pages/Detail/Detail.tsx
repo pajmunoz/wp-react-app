@@ -8,9 +8,9 @@ export default function Detail() {
     const { slug } = useParams()
     useEffect(() => {
         const fetchData = async () => {
-            console.log('slug', slug);
+            //console.log('slug', slug);
             const data = await getPostInfo(slug);
-            console.log('data', data);
+            //console.log('data', data);
             setPostInfo({
                 title: data.title || '',
                 date: data.Date || '',
