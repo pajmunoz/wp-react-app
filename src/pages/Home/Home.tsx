@@ -2,18 +2,12 @@ import { useState, useRef } from "react";
 import { getCategories, getCategoryPosts, getPageInfo, getPosts } from "../../lib/wp";
 import Card from "../../components/Card/Card";
 import HtmlContent from "../../utils/HtmlContent";
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ScrollSmoother } from 'gsap/ScrollSmoother';
-import { useGSAP } from '@gsap/react';
 import { useQuery } from "@tanstack/react-query";
 
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother);
 export default function Home() {
     const [categoryId, setCategoryId] = useState(1)
 
-    const main = useRef<any>([]);
     // Página principal
     const { data: page = { content: '' }, isLoading: loadingPage } = useQuery({
         queryKey: ['page', 'home'],
@@ -42,32 +36,14 @@ export default function Home() {
                 )
                 : getPosts({ perPage: 6 }),
     });
-    const smoother = useRef<any>([]);
     // const scrollTo = (section:string) => {
     //     smoother.current.scrollTo(section, true, 'center center');
     // };
-    useGSAP(
-        () => {
-            // create the smooth scroller FIRST!
-            smoother.current = ScrollSmoother.create({
-                smooth: 5, // seconds it takes to "catch up" to native scroll position
-                effects: true, // look for data-speed and data-lag attributes on elements and animate accordingly
-            });
-            ScrollTrigger.create({
-                trigger: '.section_tree',
-                pin: true,
-                start: 'center center',
-                end: '+=300',
-                markers: false,
-            });
-        },
-        { scope: main }
-    );
 
     const handleCategoryId = (catId: number) => setCategoryId(catId);
 
     return (
-        <div id="smooth-wrapper" ref={main}>
+        <div id="smooth-wrapper">
             <div id="smooth-content">
                 <HtmlContent className="section_one" htmlString={page.content} data-speed="0.5" />
 
