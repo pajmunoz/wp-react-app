@@ -3,18 +3,29 @@ import { getCategories, getCategoryPosts, getPageInfo, getPosts } from "../../li
 import Card from "../../components/Card/Card";
 import HtmlContent from "../../utils/HtmlContent";
 import { useQuery } from "@tanstack/react-query";
+import Titles from "../../components/Titles/Titles";
 
 
 export default function Home() {
     const [categoryId, setCategoryId] = useState(1)
 
-    // Página principal
-    const { data: page = { content: '' }, isLoading: loadingPage } = useQuery({
-        queryKey: ['page', 'home'],
-        queryFn: () => getPageInfo('home')
+    // saludo principal
+    const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
+        queryKey: ['page', '1main'],
+        queryFn: () => getPageInfo('1main')
+    });
+    // acerca de
+    const { data: description = { content: '' }, isLoading: loadingDesc } = useQuery({
+        queryKey: ['page', '2description'],
+        queryFn: () => getPageInfo('2description')
+    });
+    // links
+    const { data: links = { content: '' }, isLoading: loadingLinks } = useQuery({
+        queryKey: ['page', '3links'],
+        queryFn: () => getPageInfo('3links')
     });
 
-     // Categorías
+    // Categorías
     const { data: category = [], isLoading: loadingCat } = useQuery({
         queryKey: ['categories'],
         queryFn: getCategories
@@ -28,9 +39,10 @@ export default function Home() {
                     response.map((post: any) => ({
                         ...post,
                         title: post.title?.rendered ?? post.title,
+                        date: post.date?.rendered ?? post.date,
                         excerpt: post.excerpt?.rendered ?? post.excerpt,
                         content: post.content?.rendered ?? post.content,
-                        featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
+                        featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.media_details.sizes.medium.source_url ?? null,
                         slug: post.slug,
                     }))
                 )
@@ -43,34 +55,87 @@ export default function Home() {
     const handleCategoryId = (catId: number) => setCategoryId(catId);
 
     return (
-        <div id="smooth-wrapper">
-            <div id="smooth-content">
-                <HtmlContent className="section_one" htmlString={page.content} data-speed="0.5" />
+        <div className="container is-max-desktop">
 
-                <div className="section_two" data-speed="0.8">
-                    <section id="skills" className="skills">
-                        <h3>Skills.</h3>
-                        <ul className="category">
-                            {category.map((cat: any) => (
-                                <li key={cat.id} className={categoryId === cat.id ? "active" : ""}>
-                                    <a onClick={() => handleCategoryId(cat.id)}>{cat.name}</a>
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="post_container container">
+            <section id="main" className="main hero is-large">
+                <div className="hero-body">
+                    {loadingPage ? (
+                        <div className="skeleton-block" style={{ height: 300, borderRadius: 8 }} />
+                    ) : (
+
+                        <HtmlContent className={'container has-text-centered'} htmlString={main.content} />
+
+                    )}
+                </div>
+            </section>
+
+            <section id="about" className="about hero is-fullheight">
+                <div className="hero-body is-flex-wrap-wrap">
+                    <Titles title="About" />
+                    <HtmlContent className="subtitle" htmlString={description.content} />
+                </div>
+            </section>
+
+            <section id="links" className="links hero is-fullheight">
+
+                <div className="hero-body is-flex-wrap-wrap">
+                    <Titles title="Links" />
+                    <HtmlContent className="subtitle" htmlString={links.content} />
+                </div>
+            </section>
+
+            <section id="skills" className="skills hero is-large">
+
+                <div className="hero-body is-flex-wrap-wrap">
+                    <Titles title="Skills" />
+                    <div className="subtitle">
+                        {loadingCat ? (
+                            <div className="is-flex is-justify-content-space-between" style={{ gap: 8 }}>
+                                {Array.from({ length: 5 }).map((_, idx) => (
+                                    <div key={idx} className="cell">
+                                        <div className="tag is-skeleton" style={{ width: 90, height: 25, borderRadius: 8 }} />
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="is-flex is-justify-content-space-between">
+                                {category.map((cat: any) => (
+                                    <div key={cat.id} className={categoryId === cat.id ? "cell active" : ""}>
+                                        <button
+                                            className={`tag  is-link  ${cat.name === 'Wordpress' ? "is-success" : cat.name === 'Angular' ? "is-primary" : cat.name === 'Sitecore' ? "is-info" : cat.name === 'React' ? "is-danger" : "is-warning"}`}
+                                            onClick={() => handleCategoryId(cat.id)}
+                                        >
+                                            {cat.name}
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="fixed-grid has-4-cols">
+
+                        <div className="grid">
                             {loadingPosts
-                                ? <div>Cargando...</div>
-                                : (posts as any[]).map((post: any) => <Card key={post.id} {...post} />)
+                                ? Array.from({ length: 8 }).map((_, idx) => (
+                                    <div className="cell" key={idx}>
+                                        <div className="skeleton-block" style={{ height: 210, borderRadius: 8 }} />
+                                    </div>
+                                ))
+                                : (posts as any[]).map((post: any) =>
+                                    <div className="cell" key={post.id}>
+                                        <Card {...post} />
+                                    </div>)
                             }
                         </div>
-                    </section>
+                    </div>
                 </div>
-                <div className="section_tree" data-speed="1.5">
-                    <section id="projects" className="projects">
-                        <h3>Contact.</h3>
-                    </section>
-                </div>
-            </div>
-        </div>
+            </section>
+
+            <section id="projects" className="projects hero is-fullheight">
+                <Titles title="Contact" />
+            </section>
+
+        </div >
     )
 }
