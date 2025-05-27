@@ -1,0 +1,78 @@
+@keyframes backgroundGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(-45deg, #232526, #414345, #141e30, #243b55);
+    background-size: 400% 400%;
+    animation: backgroundGradient 15s ease infinite;
+}
+
+.cell {
+
+
+    &.active {
+
+
+        & button {
+            background-color: #fff;
+            color: #000;
+        }
+    }
+}
+
+.content{
+    min-width: 100%;
+}
+
+.main {
+
+    h1,
+    h2,
+    h3 {
+        line-height: 7rem;
+    }
+
+    h1 {
+        font-size: 10rem;
+    }
+
+    h2 {
+        font-size: 2.5rem;
+    }
+
+    h3 {
+        font-size: 5rem;
+    }
+}
+@media (max-width: 768px) {
+    .main {
+        h1 {
+            font-size: 4rem;
+            line-height: 4.5rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+        h3 {
+            font-size: 2.5rem;
+            line-height: 3rem;
+        }
+    }
+    body {
+        padding: 1rem;
+    }
+}

@@ -5,7 +5,7 @@ import HtmlContent from "../../utils/HtmlContent";
 export default function Card({ id, title, date, excerpt, featuredImage, slug }: any) {
     return (
 
-        <div className="card" key={id}>
+        <div className="card" key={id} style={{width:'23%'}}>
             <div className="card-image">
 
 
@@ -18,7 +18,7 @@ export default function Card({ id, title, date, excerpt, featuredImage, slug }: 
             <div className="card-content">
                 <div className="media">
                     <div className="media-left">
-                        <Link to={`/project/${slug}`}><h1>{title}</h1></Link>
+                        <Link to={`/project/${slug}`}>{title}</Link>
                     </div>
                 </div>
 

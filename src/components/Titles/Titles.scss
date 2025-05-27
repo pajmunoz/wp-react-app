@@ -1,0 +1,15 @@
+p.title{
+    font-size: 8rem;
+    & span{
+            font-size: 8rem;
+        }
+}
+@media (max-width: 600px) {
+    p.title {
+        font-size: 3rem;
+        & span{
+            font-size: 2rem;
+        }
+    }
+
+}

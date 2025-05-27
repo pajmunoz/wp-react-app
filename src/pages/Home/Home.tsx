@@ -4,6 +4,8 @@ import Card from "../../components/Card/Card";
 import HtmlContent from "../../utils/HtmlContent";
 import { useQuery } from "@tanstack/react-query";
 import Titles from "../../components/Titles/Titles";
+import ScrollMenu from "../../components/ScrollMenu/ScrollMenu";
+import './Home.scss';
 
 
 export default function Home() {
@@ -56,7 +58,7 @@ export default function Home() {
 
     return (
         <div className="container is-max-desktop">
-
+            <ScrollMenu />
             <section id="main" className="main hero is-large">
                 <div className="hero-body">
                     {loadingPage ? (
@@ -71,7 +73,7 @@ export default function Home() {
 
             <section id="about" className="about hero is-fullheight">
                 <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="About" />
+                    <Titles title="About Me" color={'has-background-primary'} />
                     <HtmlContent className="subtitle" htmlString={description.content} />
                 </div>
             </section>
@@ -79,61 +81,66 @@ export default function Home() {
             <section id="links" className="links hero is-fullheight">
 
                 <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="Links" />
+                    <Titles title="Links" color={'has-background-link'} />
                     <HtmlContent className="subtitle" htmlString={links.content} />
                 </div>
             </section>
 
-            <section id="skills" className="skills hero is-large">
+            <section id="skills" className="skills hero is-fullheight">
 
-                <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="Skills" />
-                    <div className="subtitle">
-                        {loadingCat ? (
-                            <div className="is-flex is-justify-content-space-between" style={{ gap: 8 }}>
-                                {Array.from({ length: 5 }).map((_, idx) => (
-                                    <div key={idx} className="cell">
-                                        <div className="tag is-skeleton" style={{ width: 90, height: 25, borderRadius: 8 }} />
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="is-flex is-justify-content-space-between">
-                                {category.map((cat: any) => (
-                                    <div key={cat.id} className={categoryId === cat.id ? "cell active" : ""}>
-                                        <button
-                                            className={`tag  is-link  ${cat.name === 'Wordpress' ? "is-success" : cat.name === 'Angular' ? "is-primary" : cat.name === 'Sitecore' ? "is-info" : cat.name === 'React' ? "is-danger" : "is-warning"}`}
-                                            onClick={() => handleCategoryId(cat.id)}
-                                        >
-                                            {cat.name}
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                <div className="hero-body is-flex-wrap-wrap is-align-content-center">
+                    <Titles title="Skills" color={'has-background-info'} />
+                    <div className="content">
+                        <div className="subtitle">
+                            {loadingCat ? (
+                                <div className="is-flex is-justify-content-center">
+                                    {Array.from({ length: 5 }).map((_, idx) => (
+                                        <div key={idx} className="cell">
+                                            <div className="tag is-skeleton" style={{ width: 90, height: 25, borderRadius: 8 }} />
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="is-flex is-justify-content-center">
+                                    {category.map((cat: any) => (
+                                        <div key={cat.id} className={categoryId === cat.id ? "cell active" : "cell"}>
+                                            <button
+                                                className={`tag is-link mx-2  ${cat.name === 'Wordpress' ? "is-success" : cat.name === 'Angular' ? "is-primary" : cat.name === 'Sitecore' ? "is-info" : cat.name === 'React' ? "is-danger" : "is-warning"}`}
+                                                onClick={() => handleCategoryId(cat.id)}
+                                            >
+                                                {cat.name}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
-                    <div className="fixed-grid has-4-cols">
 
-                        <div className="grid">
+
+
+                        <div className="is-flex is-justify-content-space-around is-flex-wrap-wrap">
                             {loadingPosts
-                                ? Array.from({ length: 8 }).map((_, idx) => (
-                                    <div className="cell" key={idx}>
-                                        <div className="skeleton-block" style={{ height: 210, borderRadius: 8 }} />
-                                    </div>
+                                ? Array.from({ length: 4 }).map((_, idx) => (
+
+                                    <div key={idx} className="cell skeleton-block" style={{ height: 210, borderRadius: 8 }} />
+
                                 ))
                                 : (posts as any[]).map((post: any) =>
-                                    <div className="cell" key={post.id}>
-                                        <Card {...post} />
-                                    </div>)
+
+                                    <Card {...post} className="cell" key={post.id} />
+                                )
                             }
                         </div>
                     </div>
                 </div>
+
             </section>
 
             <section id="projects" className="projects hero is-fullheight">
-                <Titles title="Contact" />
+                <div className="hero-body is-flex-wrap-wrap">
+                    <Titles title="Projects" color={'has-background-danger'} />
+                </div>
             </section>
 
         </div >
