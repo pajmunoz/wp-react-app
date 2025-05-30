@@ -124,17 +124,17 @@ export default function Home() {
                                     {Array.isArray(value) ? (
                                         <ul>
                                             {value.map((item, idx) => (
-                                                <li key={idx} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
+                                                <span key={idx} className="tag is-info is-light mr-2 mb-2">
                                                     {item}
-                                                </li>
+                                                </span>
                                             ))}
                                         </ul>
                                     ) : typeof value === 'object' ? (
                                         <ul>
                                             {Object.entries(value).map(([lang, level]) => (
-                                                <li key={lang} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
-                                                    <strong>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</strong> {level}
-                                                </li>
+                                                <span key={lang} className="tag is-info is-light mr-2 mb-2">
+                                                    <span>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</span> {level}
+                                                </span>
                                             ))}
                                         </ul>
                                     ) : (
