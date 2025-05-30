@@ -27,7 +27,7 @@ export default function LanguageSelect() {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                {language === "en" ? "English" : "Español"}
+                {language === "en" ? "En" : "Es"}
             </Button>
             <Menu
                 id="basic-menu"
@@ -36,8 +36,8 @@ export default function LanguageSelect() {
                 onClose={handleClose}
             >
 
-                <MenuItem onClick={() => handleSelect("en")}>English</MenuItem>
-                <MenuItem onClick={() => handleSelect("es")}>Spanish</MenuItem>
+                <MenuItem onClick={() => handleSelect("en")}>EN</MenuItem>
+                <MenuItem onClick={() => handleSelect("es")}>ES</MenuItem>
             </Menu>
         </>
     )
