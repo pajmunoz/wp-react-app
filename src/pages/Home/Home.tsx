@@ -58,6 +58,22 @@ export default function Home() {
 
     const handleCategoryId = (catId: number) => setCategoryId(catId);
 
+    const pabloJaraSkills = {
+        languages: ["JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "SCSS", "SASS", "PHP (basic)", "Python (basic)"],
+        frontendFrameworks: ["React", "Angular", "Bootstrap"],
+        backendTechnologies: ["Node.js", "Firebase", "MongoDB", "PostgreSQL", "DBeaver"],
+        toolsAndDevOps: ["Git", "GitHub", "GitLab", "NPM", "Webpack", "Gulp", "Grunt", "Azure DevOps"],
+        testing: ["Jest", "Testing Library", "SonarQube"],
+        cmsExperience: ["WordPress", "Sitecore", "Custom CMS"],
+        uiUxDesign: ["Figma", "Adobe Photoshop", "Illustrator", "Adobe XD"],
+        softSkills: ["Problem-solving", "Teamwork", "Flexibility", "Communication", "Self-learning"],
+        methodologies: ["Agile", "Scrum", "Kanban"],
+        languagesSpoken: {
+            spanish: "Native",
+            english: "Advanced - Professional proficiency"
+        }
+    };
+
     return (
         <div className="container is-max-desktop">
             <ScrollMenu />
@@ -73,7 +89,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="about" className="about hero is-fullheight">
+            <section id="about" className="about hero is-fullheight has-background-black">
                 <div className="hero-body is-flex-wrap-wrap">
                     <Titles title="About Me" color={'has-background-primary'} />
                     <HtmlContent className="subtitle" htmlString={description.content} />
@@ -88,9 +104,46 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="skills" className="skills hero is-fullheight">
+            <section id="skills" className="skills hero is-fullheight has-background-grey">
                 <div className="hero-body is-flex-wrap-wrap">
                     <Titles title="Skills" color={'has-background-info'} />
+                <div className="skills-list">
+                    {Object.entries(pabloJaraSkills).map(([key, value]) => (
+                        <div key={key} className="skill-category mb-4">
+                            <strong className="is-size-5 has-text-info">
+                                {key
+                                    .replace(/([A-Z])/g, ' $1')
+                                    .replace(/^./, str => str.toUpperCase())
+                                    .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                    .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                    .replace(/([A-Z][a-z]+)/g, ' $1')
+                                    .replace(/\s+/g, ' ')
+                                    .trim()}
+                            </strong>
+                            <div className="ml-3 mt-2">
+                                {Array.isArray(value) ? (
+                                    <ul>
+                                        {value.map((item, idx) => (
+                                            <li key={idx} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : typeof value === 'object' ? (
+                                    <ul>
+                                        {Object.entries(value).map(([lang, level]) => (
+                                            <li key={lang} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
+                                                <strong>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</strong> {level}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <span>{value}</span>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 </div>
             </section>
 
@@ -130,8 +183,8 @@ export default function Home() {
                         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {loadingPosts
                                 ? Array.from({ length: 6 }).map((_, idx) => (
-                                    <Grid size={{ xs: 2, sm: 4, md: 4 }}>
-                                        <div key={idx} className="cell">
+                                    <Grid key={idx} size={{ xs: 2, sm: 4, md: 4 }}>
+                                        <div className="cell">
                                             <Skeleton
                                                 sx={{ bgcolor: 'grey.900' }}
                                                 variant="rectangular"

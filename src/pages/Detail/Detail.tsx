@@ -25,9 +25,9 @@ export default function Detail() {
     return (<>
         {
             <>
-                <section className="hero is-small is-primary">
+                <section className="hero is-small is-primary has-text-dark">
                     <div className="hero-body">
-                        <h1 className="title">Projects</h1>
+                        <h1 className="title has-text-darker">Projects</h1>
                         <p>{!postInfo.date ? <Skeleton animation="wave" /> : postInfo.date}</p>
                         {!postInfo.title ? <Skeleton animation="wave" /> : <h1 className="has-text-weight-bold">{postInfo.title}</h1>}
                     </div>
@@ -37,12 +37,12 @@ export default function Detail() {
                         {!postInfo.content ? <Skeleton animation="wave" /> : <HtmlContent htmlString={postInfo.content} />}
                     </h1>
 
-                    {!postInfo.title ? <Skeleton variant="rectangular" width="100%">
+                    {/*!postInfo.title ? <Skeleton variant="rectangular" width="100%">
                         <div style={{ paddingTop: '57%' }} />
                     </Skeleton> :
                         <figure className="image is-2by1">
                             <img className="post_image" src={postInfo.featuredImage} alt={postInfo.title} />
-                        </figure>}
+                        </figure>*/}
 
                 </section>
             </>
