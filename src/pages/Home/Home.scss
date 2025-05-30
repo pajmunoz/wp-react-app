@@ -33,7 +33,7 @@ body {
     }
 }
 
-.content{
+.content {
     min-width: 100%;
 }
 
@@ -57,26 +57,28 @@ body {
         font-size: 5rem;
     }
 }
+
 @media (max-width: 768px) {
     .main {
         h1 {
             font-size: 4rem;
             line-height: 4.5rem;
         }
+
         h2 {
             font-size: 1.5rem;
             line-height: 2rem;
         }
+
         h3 {
             font-size: 2.5rem;
             line-height: 3rem;
         }
     }
-    body {
-        padding: 1rem;
-    }
+
 }
-#links{
+
+#links {
     .subtitle {
         display: flex;
         flex-direction: column;
