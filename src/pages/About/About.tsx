@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { getPageInfo } from '../../lib/wp'
 import HtmlContent from '../../utils/HtmlContent'
+import { Box, Container } from '@mui/material';
 
 
 export default function About() {
@@ -16,9 +17,15 @@ export default function About() {
     }, []);
 
     return (
-        <div className="about container">
-            <HtmlContent htmlString={page.title} />
-            <HtmlContent htmlString={page.content} />
-        </div>
+        <section className="about hero is-large">
+            <div className="hero-body">
+
+                <Container sx={{ my: 2 }}>
+                    <h1 className='has-text-weight-extrabold'><HtmlContent htmlString={page.title} /></h1>
+                    <Box sx={{ mt: 1 }}><HtmlContent htmlString={page.content} /></Box>
+                </Container>
+            </div>
+
+        </section>
     );
 }

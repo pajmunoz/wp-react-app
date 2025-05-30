@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import Titles from "../../components/Titles/Titles";
 import ScrollMenu from "../../components/ScrollMenu/ScrollMenu";
 import './Home.scss';
+import { Grid, Skeleton } from '@mui/material';
+import CardItem from "../../components/Card/Card";
 
 
 export default function Home() {
@@ -59,7 +61,7 @@ export default function Home() {
     return (
         <div className="container is-max-desktop">
             <ScrollMenu />
-            <section id="main" className="main hero is-large">
+            <section id="main" className="main hero is-fullheight">
                 <div className="hero-body">
                     {loadingPage ? (
                         <div className="skeleton-block" style={{ height: 300, borderRadius: 8 }} />
@@ -87,9 +89,15 @@ export default function Home() {
             </section>
 
             <section id="skills" className="skills hero is-fullheight">
+                <div className="hero-body is-flex-wrap-wrap">
+                    <Titles title="Skills" color={'has-background-info'} />
+                </div>
+            </section>
+
+            <section id="projects" className="projects hero is-fullheight">
 
                 <div className="hero-body is-flex-wrap-wrap is-align-content-center">
-                    <Titles title="Skills" color={'has-background-info'} />
+                    <Titles title="Projects" color={'has-background-danger'} />
                     <div className="content">
                         <div className="subtitle">
                             {loadingCat ? (
@@ -119,29 +127,35 @@ export default function Home() {
 
 
 
-                        <div className="is-flex is-justify-content-space-around is-flex-wrap-wrap">
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {loadingPosts
-                                ? Array.from({ length: 4 }).map((_, idx) => (
-
-                                    <div key={idx} className="cell skeleton-block" style={{ height: 210, borderRadius: 8 }} />
-
+                                ? Array.from({ length: 6 }).map((_, idx) => (
+                                    <Grid size={{ xs: 2, sm: 4, md: 4 }}>
+                                        <div key={idx} className="cell">
+                                            <Skeleton
+                                                sx={{ bgcolor: 'grey.900' }}
+                                                variant="rectangular"
+                                                width={270}
+                                                height={260}
+                                            />
+                                        </div>
+                                    </Grid>
                                 ))
+
+
                                 : (posts as any[]).map((post: any) =>
 
-                                    <Card {...post} className="cell" key={post.id} />
+                                    <Grid key={post.id} size={{ xs: 2, sm: 4, md: 4 }}><CardItem {...post} className="cell" />
+                                    </Grid>
                                 )
                             }
-                        </div>
+                        </Grid>
                     </div>
                 </div>
 
-            </section>
+            </section >
 
-            <section id="projects" className="projects hero is-fullheight">
-                <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="Projects" color={'has-background-danger'} />
-                </div>
-            </section>
+
 
         </div >
     )

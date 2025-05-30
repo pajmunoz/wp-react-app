@@ -8,14 +8,26 @@ import Layout from './components/Layout/Layout';
 import About from './pages/About/About';
 import Detail from './pages/Detail/Detail';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 root.render(
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
+      <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <BrowserRouter basename="/">
         <Routes>
           <Route path='/' element={<Layout />}>
@@ -26,6 +38,7 @@ root.render(
           </Route>
         </Routes>
       </BrowserRouter>
+      </ThemeProvider>
     </React.StrictMode>
   </QueryClientProvider>
 );

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import HtmlContent from "../../utils/HtmlContent";
 import { getPostInfo } from "../../lib/wp";
 import { useParams } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 export default function Detail() {
     const [postInfo, setPostInfo] = useState({ title: '', date: '', content: '', featuredImage: '#', slug: '' })
@@ -21,17 +22,31 @@ export default function Detail() {
         };
         fetchData();
     }, [slug]);
-    return (
-        <div className="container">
-            <article className="post_detail">
-                <h1 className="post_title">{postInfo.title}</h1>
-                <p className="post_date">{postInfo.date}</p>
-                <img className="post_image" src={postInfo.featuredImage} alt={postInfo.title} />
-                <div className="post_content">
-                    <HtmlContent htmlString={postInfo.content} />
-                </div>
-            </article>
-        </div>
+    return (<>
+        {
+            <>
+                <section className="hero is-small is-primary">
+                    <div className="hero-body">
+                        <h1 className="title">Projects</h1>
+                        <p>{!postInfo.date ? <Skeleton animation="wave" /> : postInfo.date}</p>
+                        {!postInfo.title ? <Skeleton animation="wave" /> : <h1 className="has-text-weight-bold">{postInfo.title}</h1>}
+                    </div>
+                </section>
+                <section className="section is-small">
+                    <h1 className="has-text-weight-bold">
+                        {!postInfo.content ? <Skeleton animation="wave" /> : <HtmlContent htmlString={postInfo.content} />}
+                    </h1>
 
+                    {!postInfo.title ? <Skeleton variant="rectangular" width="100%">
+                        <div style={{ paddingTop: '57%' }} />
+                    </Skeleton> :
+                        <figure className="image is-2by1">
+                            <img className="post_image" src={postInfo.featuredImage} alt={postInfo.title} />
+                        </figure>}
+
+                </section>
+            </>
+        }
+    </>
     )
 }
