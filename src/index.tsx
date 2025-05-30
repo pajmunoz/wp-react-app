@@ -10,6 +10,7 @@ import Detail from './pages/Detail/Detail';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { LanguageProvider } from './context/LanguageContext';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
@@ -24,6 +25,7 @@ const darkTheme = createTheme({
 });
 
 root.render(
+  <LanguageProvider>
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
       <ThemeProvider theme={darkTheme}>
@@ -41,6 +43,7 @@ root.render(
       </ThemeProvider>
     </React.StrictMode>
   </QueryClientProvider>
+  </LanguageProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,6 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { getCategories, getCategoryPosts, getPageInfo, getPosts } from "../../lib/wp";
-import Card from "../../components/Card/Card";
 import HtmlContent from "../../utils/HtmlContent";
 import { useQuery } from "@tanstack/react-query";
 import Titles from "../../components/Titles/Titles";
@@ -8,38 +7,39 @@ import ScrollMenu from "../../components/ScrollMenu/ScrollMenu";
 import './Home.scss';
 import { Grid, Skeleton } from '@mui/material';
 import CardItem from "../../components/Card/Card";
+import { useLanguage } from "../../context/LanguageContext";
 
 
 export default function Home() {
     const [categoryId, setCategoryId] = useState(1)
+    const language = useLanguage();
 
     // saludo principal
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
-        queryKey: ['page', '1main'],
-        queryFn: () => getPageInfo('1main')
-    });
-    // acerca de
-    const { data: description = { content: '' }, isLoading: loadingDesc } = useQuery({
-        queryKey: ['page', '2description'],
-        queryFn: () => getPageInfo('2description')
-    });
-    // links
-    const { data: links = { content: '' }, isLoading: loadingLinks } = useQuery({
-        queryKey: ['page', '3links'],
-        queryFn: () => getPageInfo('3links')
+        queryKey: ['page', '1main', language.language], // <--- agrega el idioma aquí
+        queryFn: () => getPageInfo('1main', language.language)
     });
 
-    // Categorías
+    const { data: description = { content: '' }, isLoading: loadingDesc } = useQuery({
+        queryKey: ['page', '2description', language.language], // <--- agrega el idioma aquí
+        queryFn: () => getPageInfo('2description', language.language)
+    });
+
+    const { data: links = { content: '' }, isLoading: loadingLinks } = useQuery({
+        queryKey: ['page', '3links', language.language], // <--- agrega el idioma aquí
+        queryFn: () => getPageInfo('3links', language.language)
+    });
+
     const { data: category = [], isLoading: loadingCat } = useQuery({
-        queryKey: ['categories'],
+        queryKey: ['categories', language.language], // <--- si tus categorías dependen del idioma
         queryFn: getCategories
     });
 
     const { data: posts = [], isLoading: loadingPosts } = useQuery({
-        queryKey: ['posts', categoryId],
+        queryKey: ['posts', categoryId, language.language], // <--- agrega el idioma aquí
         queryFn: () =>
             categoryId
-                ? getCategoryPosts(categoryId).then(response =>
+                ? getCategoryPosts(categoryId, language.language).then(response =>
                     response.map((post: any) => ({
                         ...post,
                         title: post.title?.rendered ?? post.title,
@@ -50,7 +50,7 @@ export default function Home() {
                         slug: post.slug,
                     }))
                 )
-                : getPosts({ perPage: 6 }),
+                : getPosts({ perPage: 6, lang: language.language }),
     });
     // const scrollTo = (section:string) => {
     //     smoother.current.scrollTo(section, true, 'center center');
@@ -107,43 +107,43 @@ export default function Home() {
             <section id="skills" className="skills hero is-fullheight has-background-grey">
                 <div className="hero-body is-flex-wrap-wrap">
                     <Titles title="Skills" color={'has-background-info'} />
-                <div className="skills-list">
-                    {Object.entries(pabloJaraSkills).map(([key, value]) => (
-                        <div key={key} className="skill-category mb-4">
-                            <strong className="is-size-5 has-text-info">
-                                {key
-                                    .replace(/([A-Z])/g, ' $1')
-                                    .replace(/^./, str => str.toUpperCase())
-                                    .replace(/([a-z])([A-Z])/g, '$1 $2')
-                                    .replace(/([a-z])([A-Z])/g, '$1 $2')
-                                    .replace(/([A-Z][a-z]+)/g, ' $1')
-                                    .replace(/\s+/g, ' ')
-                                    .trim()}
-                            </strong>
-                            <div className="ml-3 mt-2">
-                                {Array.isArray(value) ? (
-                                    <ul>
-                                        {value.map((item, idx) => (
-                                            <li key={idx} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : typeof value === 'object' ? (
-                                    <ul>
-                                        {Object.entries(value).map(([lang, level]) => (
-                                            <li key={lang} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
-                                                <strong>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</strong> {level}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <span>{value}</span>
-                                )}
+                    <div className="skills-list">
+                        {Object.entries(pabloJaraSkills).map(([key, value]) => (
+                            <div key={key} className="skill-category mb-4">
+                                <strong className="is-size-5 has-text-info">
+                                    {key
+                                        .replace(/([A-Z])/g, ' $1')
+                                        .replace(/^./, str => str.toUpperCase())
+                                        .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                        .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                        .replace(/([A-Z][a-z]+)/g, ' $1')
+                                        .replace(/\s+/g, ' ')
+                                        .trim()}
+                                </strong>
+                                <div className="ml-3 mt-2">
+                                    {Array.isArray(value) ? (
+                                        <ul>
+                                            {value.map((item, idx) => (
+                                                <li key={idx} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
+                                                    {item}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : typeof value === 'object' ? (
+                                        <ul>
+                                            {Object.entries(value).map(([lang, level]) => (
+                                                <li key={lang} className="tag is-info is-light mr-2 mb-2" style={{ display: 'inline-block' }}>
+                                                    <strong>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</strong> {level}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <span>{value}</span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 

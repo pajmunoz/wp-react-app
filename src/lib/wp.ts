@@ -4,8 +4,9 @@ const apiUrl = `${domain}/wp-json/wp/v2`;
 
 //console.log("WordPress domain:", domain);
 
-export const getPageInfo = async (slug: string) => {
-    const response = await fetch(`${apiUrl}/pages?slug=${slug}`);
+export const getPageInfo = async (slug: string, language: string) => {
+
+    const response = await fetch(`${apiUrl}/pages?slug=${language === "en" ? slug : slug + "_es"}&lang=${language}`);
     if (!response.ok) {
         console.error("Error fetching page info:", response.statusText);
         throw new Error(`Failed to fetch page info: ${response.statusText}`);
@@ -16,7 +17,7 @@ export const getPageInfo = async (slug: string) => {
     return { title, content };
 }
 
-export const getPosts = async ({ perPage = 10 }: { perPage?: number }) => {
+export const getPosts = async ({ perPage = 10, lang }: { perPage?: number, lang: string }) => {
     const response = await fetch(`${apiUrl}/posts?per_page=${perPage}&_embed`);
     if (!response.ok) throw new Error(`Error fetching posts: ${response.statusText}`);
 
@@ -52,8 +53,8 @@ export const getPosts = async ({ perPage = 10 }: { perPage?: number }) => {
     return posts;
 }
 
-export const getPostInfo = async (slug?: string) => {
-    const response = await fetch(`${apiUrl}/posts?slug=${slug}&_embed`);
+export const getPostInfo = async (slug?: string, lang?: string) => {
+    const response = await fetch(`${apiUrl}/posts?slug=${lang === "en" ? slug : slug + "_es"}&_embed`);
     try {
 
 
@@ -95,7 +96,7 @@ export const getCategories = async () => {
 
     return data;
 }
-export const getCategoryPosts = async (id: number) => {
+export const getCategoryPosts = async (id: number,language: string) => {
     const response = await fetch(`${apiUrl}/posts?categories=${id}&_embed`);
     if (!response.ok) throw new Error(`Error fetching posts: ${response.statusText}`);
 

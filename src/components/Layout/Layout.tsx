@@ -4,6 +4,7 @@ import logo from '../../assets/LOG.png'
 import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import MenuIcon from '@mui/icons-material/Menu';
+import LanguageSelect from "../LanguageSelect/LanguageSelect";
 
 interface Props {
     /**
@@ -73,6 +74,7 @@ export default function Layout(props: Props) {
                                 <NavLink to={`/${item}`}>{item}</NavLink>
                             </Button>
                         ))}
+                        <LanguageSelect />
                     </Box>
                 </Toolbar>
             </AppBar>
