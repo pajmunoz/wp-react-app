@@ -41,6 +41,7 @@ export default function Layout(props: Props) {
                         </ListItemButton>
                     </ListItem>
                 ))}
+                <LanguageSelect />
             </List>
         </Box>
     );
