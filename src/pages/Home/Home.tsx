@@ -13,6 +13,7 @@ import { useLanguage } from "../../context/LanguageContext";
 export default function Home() {
     const [categoryId, setCategoryId] = useState(1)
     const language = useLanguage();
+    const isEnglish = language.language === 'en';
 
     // saludo principal
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
@@ -75,7 +76,7 @@ export default function Home() {
     };
 
     return (
-        <div className="container is-max-desktop">
+        <>
             <ScrollMenu />
             <section id="main" className="main hero is-fullheight">
                 <div className="hero-body">
@@ -90,126 +91,132 @@ export default function Home() {
             </section>
 
             <section id="about" className="about hero is-fullheight has-background-black">
-                <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="About Me" color={'has-background-primary'} />
-                    <HtmlContent className="subtitle" htmlString={description.content} />
+                <div className="container is-max-desktop">
+                    <div className="hero-body is-flex-wrap-wrap">
+                        <Titles title={isEnglish?'About me':'Acerca de mi'} color={'has-background-primary'} />
+                        <HtmlContent className="subtitle" htmlString={description.content} />
+                    </div>
                 </div>
             </section>
 
             <section id="links" className="links hero is-fullheight">
-
-                <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="Links" color={'has-background-link'} />
-                    <HtmlContent className="subtitle" htmlString={links.content} />
+                
+                    <div className="hero-body is-flex-wrap-wrap">
+                        <div className="container is-max-desktop">
+                        <Titles title={isEnglish?'Links':'Enlaces'} color={'has-background-link'} />
+                        <HtmlContent className="subtitle" htmlString={links.content} />
+                    </div>
                 </div>
             </section>
 
             <section id="skills" className="skills hero is-fullheight has-background-grey">
-                <div className="hero-body is-flex-wrap-wrap">
-                    <Titles title="Skills" color={'has-background-info'} />
-                    <div className="skills-list">
-                        {Object.entries(pabloJaraSkills).map(([key, value]) => (
-                            <div key={key} className="skill-category mb-4">
-                                <strong className="is-size-5 has-text-info">
-                                    {key
-                                        .replace(/([A-Z])/g, ' $1')
-                                        .replace(/^./, str => str.toUpperCase())
-                                        .replace(/([a-z])([A-Z])/g, '$1 $2')
-                                        .replace(/([a-z])([A-Z])/g, '$1 $2')
-                                        .replace(/([A-Z][a-z]+)/g, ' $1')
-                                        .replace(/\s+/g, ' ')
-                                        .trim()}
-                                </strong>
-                                <div className="ml-3 mt-2">
-                                    {Array.isArray(value) ? (
-                                        <ul>
-                                            {value.map((item, idx) => (
-                                                <span key={idx} className="tag is-info is-light mr-2 mb-2">
-                                                    {item}
-                                                </span>
-                                            ))}
-                                        </ul>
-                                    ) : typeof value === 'object' ? (
-                                        <ul>
-                                            {Object.entries(value).map(([lang, level]) => (
-                                                <span key={lang} className="tag is-info is-light mr-2 mb-2">
-                                                    <span>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</span> {level}
-                                                </span>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <span>{value}</span>
-                                    )}
+                <div className="container is-max-desktop">
+                    <div className="hero-body is-flex-wrap-wrap">
+                        <Titles title="Skills" color={'has-background-info'} />
+                        <div className="skills-list">
+                            {Object.entries(pabloJaraSkills).map(([key, value]) => (
+                                <div key={key} className="skill-category mb-4">
+                                    <strong className="is-size-5 has-text-info">
+                                        {key
+                                            .replace(/([A-Z])/g, ' $1')
+                                            .replace(/^./, str => str.toUpperCase())
+                                            .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                            .replace(/([a-z])([A-Z])/g, '$1 $2')
+                                            .replace(/([A-Z][a-z]+)/g, ' $1')
+                                            .replace(/\s+/g, ' ')
+                                            .trim()}
+                                    </strong>
+                                    <div className="ml-3 mt-2">
+                                        {Array.isArray(value) ? (
+                                            <ul>
+                                                {value.map((item, idx) => (
+                                                    <span key={idx} className="tag is-info is-light mr-2 mb-2">
+                                                        {item}
+                                                    </span>
+                                                ))}
+                                            </ul>
+                                        ) : typeof value === 'object' ? (
+                                            <ul>
+                                                {Object.entries(value).map(([lang, level]) => (
+                                                    <span key={lang} className="tag is-info is-light mr-2 mb-2">
+                                                        <span>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</span> {level}
+                                                    </span>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <span>{value}</span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section id="projects" className="projects hero is-fullheight">
+            <section id="clients" className="clients hero is-fullheight">
+                <div className="container is-max-desktop">
+                    <div className="hero-body is-flex-wrap-wrap is-align-content-center">
+                        <Titles title={isEnglish?'Clients':'Clientes'} color={'has-background-danger'} />
+                        <div className="content">
+                            <div className="subtitle">
+                                {loadingCat ? (
+                                    <div className="is-flex is-justify-content-center">
+                                        {Array.from({ length: 5 }).map((_, idx) => (
+                                            <div key={idx} className="cell">
+                                                <div className="tag is-skeleton" style={{ width: 90, height: 25, borderRadius: 8 }} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="is-flex is-justify-content-center">
+                                        {category.map((cat: any) => (
+                                            <div key={cat.id} className={categoryId === cat.id ? "cell active" : "cell"}>
+                                                <button
+                                                    className={`tag is-link mx-2  ${cat.name === 'Wordpress' ? "is-success" : cat.name === 'Angular' ? "is-primary" : cat.name === 'Sitecore' ? "is-info" : cat.name === 'React' ? "is-danger" : "is-warning"}`}
+                                                    onClick={() => handleCategoryId(cat.id)}
+                                                >
+                                                    {cat.name}
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
 
-                <div className="hero-body is-flex-wrap-wrap is-align-content-center">
-                    <Titles title="Projects" color={'has-background-danger'} />
-                    <div className="content">
-                        <div className="subtitle">
-                            {loadingCat ? (
-                                <div className="is-flex is-justify-content-center">
-                                    {Array.from({ length: 5 }).map((_, idx) => (
-                                        <div key={idx} className="cell">
-                                            <div className="tag is-skeleton" style={{ width: 90, height: 25, borderRadius: 8 }} />
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="is-flex is-justify-content-center">
-                                    {category.map((cat: any) => (
-                                        <div key={cat.id} className={categoryId === cat.id ? "cell active" : "cell"}>
-                                            <button
-                                                className={`tag is-link mx-2  ${cat.name === 'Wordpress' ? "is-success" : cat.name === 'Angular' ? "is-primary" : cat.name === 'Sitecore' ? "is-info" : cat.name === 'React' ? "is-danger" : "is-warning"}`}
-                                                onClick={() => handleCategoryId(cat.id)}
-                                            >
-                                                {cat.name}
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+
+
+
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                {loadingPosts
+                                    ? Array.from({ length: 6 }).map((_, idx) => (
+                                        <Grid key={idx} size={{ xs: 2, sm: 3, md: 3 }}>
+                                            <div className="cell">
+                                                <Skeleton
+                                                    sx={{ bgcolor: 'grey.900' }}
+                                                    variant="rectangular"
+                                                    width={198}
+                                                    height={290}
+                                                />
+                                            </div>
+                                        </Grid>
+                                    ))
+
+
+                                    : (posts as any[]).map((post: any) =>
+
+                                        <Grid key={post.id} size={{ xs: 2, sm: 3, md: 3 }}><CardItem {...post} className="cell" isEnglish={isEnglish} />
+                                        </Grid>
+                                    )
+                                }
+                            </Grid>
                         </div>
-
-
-
-
-                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                            {loadingPosts
-                                ? Array.from({ length: 6 }).map((_, idx) => (
-                                    <Grid key={idx} size={{ xs: 2, sm: 4, md: 4 }}>
-                                        <div className="cell">
-                                            <Skeleton
-                                                sx={{ bgcolor: 'grey.900' }}
-                                                variant="rectangular"
-                                                width={270}
-                                                height={260}
-                                            />
-                                        </div>
-                                    </Grid>
-                                ))
-
-
-                                : (posts as any[]).map((post: any) =>
-
-                                    <Grid key={post.id} size={{ xs: 2, sm: 4, md: 4 }}><CardItem {...post} className="cell" />
-                                    </Grid>
-                                )
-                            }
-                        </Grid>
                     </div>
                 </div>
-
             </section >
 
 
 
-        </div >
+        </>
     )
 }

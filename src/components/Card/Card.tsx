@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 
-export default function CardItem({ id, title, date, excerpt, featuredImage, slug }: any) {
+export default function CardItem({ id, title, date, excerpt, featuredImage, slug, isEnglish }: any) {
     return (
 
 
@@ -27,7 +27,7 @@ export default function CardItem({ id, title, date, excerpt, featuredImage, slug
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small"> <Link to={`/project/${slug}`}>View more ▶︎</Link></Button>
+                <Button size="small"> <Link to={`/project/${slug}`}>{isEnglish?'View more ▶︎':'Ver más ▶︎'}  </Link></Button>
             </CardActions>
         </Card>
 

@@ -6,7 +6,7 @@ const sections = [
     { id: "about", label: "About me", color: "has-background-primary" },
     { id: "links", label: "Links", color: "has-background-link" },
     { id: "skills", label: "Skills", color: "has-background-info" },
-    { id: "projects", label: "Projects", color: "has-background-danger" },
+    { id: "clients", label: "Clients", color: "has-background-danger" },
 ];
 
 export default function ScrollMenu() {
