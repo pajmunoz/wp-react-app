@@ -1,13 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageContext";
 
-const sections = [
-    { id: "main", label: "Intro", color: "has-background-light" },
-    { id: "about", label: "About me", color: "has-background-primary" },
-    { id: "links", label: "Links", color: "has-background-link" },
-    { id: "skills", label: "Skills", color: "has-background-info" },
-    { id: "clients", label: "Clients", color: "has-background-danger" },
-];
+
 
 export default function ScrollMenu() {
     const location = useLocation();
@@ -16,6 +11,15 @@ export default function ScrollMenu() {
     const [showButton, setShowButton] = useState<boolean>(false);
     const lastScrollY = useRef<number>(window.scrollY);
     const lastHash = useRef('');
+    const language = useLanguage();
+    const isEnglish = language.language === 'en';
+    const sections = [
+    { id: "main", label: `${isEnglish?'Intro':'Intro'}`, color: "has-background-light" },
+    { id: "about", label: `${isEnglish?'About me':'Sobre mi'}`, color: "has-background-primary" },
+    { id: "links", label: `${isEnglish?'Links':'Enlaces'}`, color: "has-background-link" },
+    { id: "skills", label: "Skills", color: "has-background-info" },
+    { id: "exp", label: `${isEnglish?'Experience':'Experiencia'}`, color: "has-background-danger" },
+];
 
     // Scroll to hash on location change
     useEffect(() => {

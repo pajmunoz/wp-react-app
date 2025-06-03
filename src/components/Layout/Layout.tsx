@@ -5,6 +5,7 @@ import { AppBar, Box, Button, Divider, Drawer, IconButton, List, ListItem, ListI
 import React from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import LanguageSelect from "../LanguageSelect/LanguageSelect";
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     /**
@@ -20,6 +21,8 @@ const navItems = ['Home', 'About'];
 export default function Layout(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const location = useLocation();
+    const currentPath = location.pathname;
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -51,34 +54,44 @@ export default function Layout(props: Props) {
     return (
 
         <div className="layout">
-            <AppBar component="nav">
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{ mr: 2, display: { sm: 'none' } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                    >
-                        Pablo🞨Jara
-                    </Typography>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
-                                <NavLink to={`/${item}`}>{item}</NavLink>
-                            </Button>
-                        ))}
-                        <LanguageSelect />
-                    </Box>
-                </Toolbar>
-            </AppBar>
+            <div className="navigation">
+                <div className="navBar">
+                    <AppBar component="nav">
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                sx={{ mr: 2, display: { sm: 'none' } }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            >
+                                Pablo🞨Jara
+                            </Typography>
+                            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                                {navItems.map((item) => (
+                                    <Button
+                                        key={item}
+                                        variant={currentPath === `/${item}` ? "outlined" : "text"}
+                                        sx={{ color: '#fff' }}
+                                    >
+                                        <NavLink to={`/${item}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                            {item}
+                                        </NavLink>
+                                    </Button>
+                                ))}
+                                <LanguageSelect />
+                            </Box>
+                        </Toolbar>
+                    </AppBar>
+                </div>
+            </div>
             <nav>
                 <Drawer
                     container={container}

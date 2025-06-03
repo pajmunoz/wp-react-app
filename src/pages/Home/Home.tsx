@@ -89,34 +89,33 @@ export default function Home() {
                     )}
                 </div>
             </section>
-
+            <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} />
             <section id="about" className="about hero is-fullheight has-background-black">
-                <div className="container is-max-desktop">
-                    <div className="hero-body is-flex-wrap-wrap">
-                        <Titles title={isEnglish?'About me':'Acerca de mi'} color={'has-background-primary'} />
-                        <HtmlContent className="subtitle" htmlString={description.content} />
+
+                <div className="hero-body is-flex-wrap-wrap">
+                    <div className="container is-max-desktop">
+                        <HtmlContent className="subtitle is-size-5" htmlString={description.content} />
                     </div>
                 </div>
             </section>
-
+            <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} />
             <section id="links" className="links hero is-fullheight">
-                
-                    <div className="hero-body is-flex-wrap-wrap">
-                        <div className="container is-max-desktop">
-                        <Titles title={isEnglish?'Links':'Enlaces'} color={'has-background-link'} />
+                <div className="hero-body is-flex-wrap-wrap">
+                    <div className="container is-max-desktop">
                         <HtmlContent className="subtitle" htmlString={links.content} />
                     </div>
                 </div>
             </section>
+            <Titles title="Skills" color={'has-background-info'} />
+            <section id="skills" className="skills hero is-fullheight has-background-black-bis">
 
-            <section id="skills" className="skills hero is-fullheight has-background-grey">
-                <div className="container is-max-desktop">
-                    <div className="hero-body is-flex-wrap-wrap">
-                        <Titles title="Skills" color={'has-background-info'} />
+                <div className="hero-body is-flex-wrap-wrap">
+                    <div className="container is-max-desktop">
+
                         <div className="skills-list">
                             {Object.entries(pabloJaraSkills).map(([key, value]) => (
                                 <div key={key} className="skill-category mb-4">
-                                    <strong className="is-size-5 has-text-info">
+                                    <p className="is-size-3 has-text-light has-text-weight-bold">
                                         {key
                                             .replace(/([A-Z])/g, ' $1')
                                             .replace(/^./, str => str.toUpperCase())
@@ -125,12 +124,12 @@ export default function Home() {
                                             .replace(/([A-Z][a-z]+)/g, ' $1')
                                             .replace(/\s+/g, ' ')
                                             .trim()}
-                                    </strong>
+                                    </p>
                                     <div className="ml-3 mt-2">
                                         {Array.isArray(value) ? (
                                             <ul>
                                                 {value.map((item, idx) => (
-                                                    <span key={idx} className="tag is-info is-light mr-2 mb-2">
+                                                    <span key={idx} className="tag  is-dark mr-2 mb-2">
                                                         {item}
                                                     </span>
                                                 ))}
@@ -138,7 +137,7 @@ export default function Home() {
                                         ) : typeof value === 'object' ? (
                                             <ul>
                                                 {Object.entries(value).map(([lang, level]) => (
-                                                    <span key={lang} className="tag is-info is-light mr-2 mb-2">
+                                                    <span key={lang} className="tag  is-dark mr-2 mb-2">
                                                         <span>{lang.charAt(0).toUpperCase() + lang.slice(1)}:</span> {level}
                                                     </span>
                                                 ))}
@@ -153,11 +152,10 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-
-            <section id="clients" className="clients hero is-fullheight">
+            <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} />
+            <section id="exp" className="exp hero is-fullheight">
                 <div className="container is-max-desktop">
                     <div className="hero-body is-flex-wrap-wrap is-align-content-center">
-                        <Titles title={isEnglish?'Clients':'Clientes'} color={'has-background-danger'} />
                         <div className="content">
                             <div className="subtitle">
                                 {loadingCat ? (

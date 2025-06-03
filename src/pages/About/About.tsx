@@ -15,11 +15,11 @@ export default function About() {
     });
 
     return (
-        <section className="about hero is-large">
+        <section className="hero is-large">
             <div className="hero-body">
 
                 <Container sx={{ my: 2 }}>
-                    <h1 className='has-text-weight-extrabold'><HtmlContent htmlString={detail.title} /></h1>
+                    <h1 className='has-text-weight-extrabold'><HtmlContent htmlString={detail.title}/></h1>
                     <Box sx={{ mt: 1 }}><HtmlContent htmlString={detail.content} /></Box>
                 </Container>
             </div>

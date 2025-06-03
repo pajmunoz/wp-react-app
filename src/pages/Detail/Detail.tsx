@@ -9,6 +9,7 @@ import './Detail.scss';
 export default function Detail() {
     const { slug } = useParams()
     const language = useLanguage();
+    const isEnglish = language.language === 'en';
 
     const { data: post = { content: '', title: '' }, isLoading } = useQuery({
         queryKey: ['postInfo', slug, language.language],
@@ -20,7 +21,7 @@ export default function Detail() {
 
             <section className="hero is-small is-primary has-text-dark">
                 <div className="hero-body">
-                    <h1 className="title has-text-darker">Project</h1>
+                    <h1 className="is-size-2 has-text-darker">{isEnglish?'Project':'Proyecto'}</h1>
                     {!post?.title ? <Skeleton animation="wave" /> : <h1 className="has-text-weight-bold">{post.title}</h1>}
                 </div>
             </section>
@@ -28,11 +29,12 @@ export default function Detail() {
                 <section className="section">
 
                     <div className="hero-body">
-                        <div className="title">Overview</div>
+                        <div className="is-size-3">{isEnglish?'Experience':'Experiencia'}</div>
 
                         {!post?.content ? <Skeleton animation="wave" /> : <HtmlDetailContent htmlString={post.content} className={`detail ${post.title}`} />}
 
                     </div>
+                    <em>{isEnglish?'* Some images may lose quality due to active NDA nor performance':'* Algunas imagenes pueden perder calidad debido a NDA vigente o por optimización'}</em>
 
                     {/*!postInfo.title ? <Skeleton variant="rectangular" width="100%">
                         <div style={{ paddingTop: '57%' }} />

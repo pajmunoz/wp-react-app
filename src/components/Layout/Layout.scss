@@ -1,3 +1,38 @@
-.layout{
-    padding-top: 4em;
+.navigation {
+    z-index: 2;
+    height: 4em;
+    width: 100%;
+    position: fixed;
+
+    &:hover {
+        .navBar {
+            opacity: 1;
+        }
+    }
+
+    .navBar {
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
+
+    }
+}
+@media (max-width: 768px) {
+    .navigation {
+        height: 3em;
+
+        .navBar {
+            opacity: 1;
+            font-size: 1em;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation {
+        height: 2.5em;
+
+        .navBar {
+            font-size: 0.9em;
+        }
+    }
 }

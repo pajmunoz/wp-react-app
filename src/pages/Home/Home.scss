@@ -1,3 +1,5 @@
+$background_url: 'https://pablojaramunoz-com-368490.hostingersite.com/wp-content/uploads/2025/06/Texturelabs_Grunge_338S.jpg';
+
 @keyframes backgroundGradient {
     0% {
         background-position: 0% 50%;
@@ -83,6 +85,51 @@ body {
         display: flex;
         flex-direction: column;
         width: 100%;
-        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+}
+
+.about,
+.links,
+.skills,
+{
+background-attachment: scroll;
+overflow: scroll;
+height: 500px;
+background-size: cover;
+background-repeat: no-repeat;
+}
+
+.exp {
+    .subtitle {
+        margin-top: 10em;
+    }
+}
+
+.skills {
+    position: relative;
+}
+
+.title {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    background-image: url($background_url);
+    background-size: cover;
+    background-attachment: fixed;
+    /* Replace 'image.jpg' with your image path */
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    /* For Chrome and Safari */
+    background-clip: text;
+    /* For Firefox and Edge */
+    -webkit-text-fill-color: transparent;
+    /* Make text transparent */
+    text-fill-color: transparent;
+    /* For Firefox and Edge */
+    filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.7));
+    span{
+         -webkit-text-fill-color: black;
     }
 }
