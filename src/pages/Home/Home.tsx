@@ -60,8 +60,9 @@ export default function Home() {
     const handleCategoryId = (catId: number) => setCategoryId(catId);
 
     const pabloJaraSkills = {
-        languages: ["JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "SCSS", "SASS", "PHP (basic)", "Python (basic)"],
         frontendFrameworks: ["React", "Angular", "Bootstrap"],
+        languages: ["JavaScript (ES6+)", "TypeScript", "HTML5", "CSS3", "SCSS", "SASS", "PHP (basic)", "Python (basic)"],
+
         backendTechnologies: ["Node.js", "Firebase", "MongoDB", "PostgreSQL", "DBeaver"],
         toolsAndDevOps: ["Git", "GitHub", "GitLab", "NPM", "Webpack", "Gulp", "Grunt", "Azure DevOps"],
         testing: ["Jest", "Testing Library", "SonarQube"],
@@ -89,26 +90,25 @@ export default function Home() {
                     )}
                 </div>
             </section>
-            <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} />
-            <section id="about" className="about hero is-fullheight has-background-black">
 
+            <section id="about" className="about hero is-fullheight has-background-black">
+                <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
                         <HtmlContent className="subtitle is-size-5" htmlString={description.content} />
                     </div>
                 </div>
             </section>
-            <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} />
             <section id="links" className="links hero is-fullheight">
+                <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
                         <HtmlContent className="subtitle" htmlString={links.content} />
                     </div>
                 </div>
             </section>
-            <Titles title="Skills" color={'has-background-info'} />
             <section id="skills" className="skills hero is-fullheight has-background-black-bis">
-
+                <Titles title="Skills" color={'has-background-info'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
 
@@ -152,8 +152,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} />
             <section id="exp" className="exp hero is-fullheight">
+                <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} />
                 <div className="container is-max-desktop">
                     <div className="hero-body is-flex-wrap-wrap is-align-content-center">
                         <div className="content">
@@ -185,7 +185,7 @@ export default function Home() {
 
 
 
-                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            <Grid container spacing={{ xs: 12, md: 3 }} columns={{ xs: 4, sm: 6, md: 12 }}>
                                 {loadingPosts
                                     ? Array.from({ length: 6 }).map((_, idx) => (
                                         <Grid key={idx} size={{ xs: 2, sm: 3, md: 3 }}>
@@ -203,7 +203,7 @@ export default function Home() {
 
                                     : (posts as any[]).map((post: any) =>
 
-                                        <Grid key={post.id} size={{ xs: 2, sm: 3, md: 3 }}><CardItem {...post} className="cell" isEnglish={isEnglish} />
+                                        <Grid key={post.id} size={{ xs: 12, sm: 3, md: 3 }}><CardItem {...post} className="cell" isEnglish={isEnglish} />
                                         </Grid>
                                     )
                                 }
