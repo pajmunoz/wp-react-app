@@ -12,18 +12,15 @@ export default function CardItem({ id, title, date, excerpt, featuredImage, slug
     return (
 
 
-        <Card sx={{ maxWidth: 345 }} key={id}>
+        <Card key={id}>
             <CardMedia
-                sx={{ height: 140 }}
+                sx={{ height: 110 }}
                 image={featuredImage}
                 title={title}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h6" component="div">
                     {title}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                    {!date ? <div className="content"><time>{date}</time></div> : ''}
                 </Typography>
             </CardContent>
             <CardActions>

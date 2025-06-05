@@ -11,16 +11,25 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LanguageProvider } from './context/LanguageContext';
+import { purple,lime } from '@mui/material/colors';
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-
-const darkTheme = createTheme({
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
   palette: {
-    mode: 'dark',
+    mode: 'light',
+    primary: {
+      main: '#161616',
+    },
+    secondary: {
+      main: '#f50057',
+    },
   },
 });
 
@@ -28,7 +37,7 @@ root.render(
   <LanguageProvider>
   <QueryClientProvider client={queryClient}>
     <React.StrictMode>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter basename="/">
         <Routes>

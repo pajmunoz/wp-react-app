@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Titles from "../../components/Titles/Titles";
 import ScrollMenu from "../../components/ScrollMenu/ScrollMenu";
 import './Home.scss';
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, Skeleton, useColorScheme } from '@mui/material';
 import CardItem from "../../components/Card/Card";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -14,6 +14,8 @@ export default function Home() {
     const [categoryId, setCategoryId] = useState(1)
     const language = useLanguage();
     const isEnglish = language.language === 'en';
+    const mode = useColorScheme();
+    const isDarkMode = mode.mode === 'dark';
 
     // saludo principal
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
@@ -79,43 +81,43 @@ export default function Home() {
     return (
         <>
             <ScrollMenu />
-            <section id="main" className="main hero is-fullheight">
+            <section id="main" className={`main hero is-fullheight ${isDarkMode?'has-background-dark':'has-background-light'}`}>
                 <div className="hero-body">
                     {loadingPage ? (
                         <div className="skeleton-block" style={{ height: 300, borderRadius: 8 }} />
                     ) : (
 
-                        <HtmlContent className={'container has-text-centered'} htmlString={main.content} />
+                        <HtmlContent className={'container has-text-centered'} htmlString={main.content}  themeMode={isDarkMode} />
 
                     )}
                 </div>
             </section>
 
-            <section id="about" className="about hero is-fullheight has-background-black">
-                <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} />
+            <section id="about" className={`about hero is-fullheight ${isDarkMode?'has-background-black':'has-background-grey-light'}`}>
+                <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'}/>
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        <HtmlContent className="subtitle is-size-5" htmlString={description.content} />
+                        <HtmlContent className="subtitle is-size-5" htmlString={description.content} themeMode={isDarkMode}/>
                     </div>
                 </div>
             </section>
-            <section id="links" className="links hero is-fullheight">
-                <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} />
+            <section id="links" className={`links hero is-fullheight ${isDarkMode?'has-background-dark':'has-background-light'}`}>
+                <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} themeMode={isDarkMode} titleColor={'has-text-link'}/>
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        <HtmlContent className="subtitle" htmlString={links.content} />
+                        <HtmlContent className="subtitle" htmlString={links.content} themeMode={isDarkMode}/>
                     </div>
                 </div>
             </section>
-            <section id="skills" className="skills hero is-fullheight has-background-black-bis">
-                <Titles title="Skills" color={'has-background-info'} />
+            <section id="skills" className={`skills hero is-fullheight ${isDarkMode?'has-background-black-bis':'has-background-grey-lighter'}`}>
+                <Titles title="Skills" color={'has-background-info'} themeMode={isDarkMode} titleColor={'has-text-info'}/>
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
 
                         <div className="skills-list">
                             {Object.entries(pabloJaraSkills).map(([key, value]) => (
                                 <div key={key} className="skill-category mb-4">
-                                    <p className="is-size-3 has-text-light has-text-weight-bold">
+                                    <p className={`is-size-3 ${isDarkMode?'has-text-light':'has-text-dark'} has-text-weight-bold`}>
                                         {key
                                             .replace(/([A-Z])/g, ' $1')
                                             .replace(/^./, str => str.toUpperCase())
@@ -152,8 +154,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section id="exp" className="exp hero is-fullheight">
-                <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} />
+            <section id="exp" className={`exp hero is-fullheight ${isDarkMode?'has-background-dark':'has-background-light'}`}>
+                <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} themeMode={isDarkMode} titleColor={'has-text-danger'}/>
                 <div className="container is-max-desktop">
                     <div className="hero-body is-flex-wrap-wrap is-align-content-center">
                         <div className="content">
@@ -185,16 +187,16 @@ export default function Home() {
 
 
 
-                            <Grid container spacing={{ xs: 12, md: 3 }} columns={{ xs: 4, sm: 6, md: 12 }}>
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 6, md: 12 }}>
                                 {loadingPosts
                                     ? Array.from({ length: 6 }).map((_, idx) => (
-                                        <Grid key={idx} size={{ xs: 2, sm: 3, md: 3 }}>
+                                        <Grid key={idx} size={{ xs: 12, sm: 3, md: 4 }}>
                                             <div className="cell">
                                                 <Skeleton
                                                     sx={{ bgcolor: 'grey.900' }}
                                                     variant="rectangular"
-                                                    width={198}
-                                                    height={290}
+                                                    width={250}
+                                                    height={110}
                                                 />
                                             </div>
                                         </Grid>
@@ -203,7 +205,7 @@ export default function Home() {
 
                                     : (posts as any[]).map((post: any) =>
 
-                                        <Grid key={post.id} size={{ xs: 12, sm: 3, md: 3 }}><CardItem {...post} className="cell" isEnglish={isEnglish} />
+                                        <Grid key={post.id} size={{ xs: 12, sm: 4, md: 4 }}><CardItem {...post} className="cell" isEnglish={isEnglish} />
                                         </Grid>
                                     )
                                 }

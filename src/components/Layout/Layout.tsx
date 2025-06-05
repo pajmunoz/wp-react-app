@@ -6,6 +6,7 @@ import React from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import LanguageSelect from "../LanguageSelect/LanguageSelect";
 import { useLocation } from 'react-router-dom';
+import ThemeSelect from "../ThemeSelect/ThemeSelect";
 
 interface Props {
     /**
@@ -45,6 +46,7 @@ export default function Layout(props: Props) {
                     </ListItem>
                 ))}
                 <LanguageSelect />
+                <ThemeSelect />
             </List>
         </Box>
     );
@@ -87,6 +89,7 @@ export default function Layout(props: Props) {
                                     </Button>
                                 ))}
                                 <LanguageSelect />
+                                <ThemeSelect />
                             </Box>
                         </Toolbar>
                     </AppBar>
