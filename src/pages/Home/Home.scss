@@ -113,6 +113,9 @@ section {
         flex-wrap: wrap;
         align-items: flex-start;
     }
+    .button{
+        margin-bottom:1.5em;
+    }
 }
 
 .about,
@@ -120,7 +123,6 @@ section {
 .skills,
 {
 background-attachment: scroll;
-overflow: scroll;
 background-size: cover;
 background-repeat: no-repeat;
 }
@@ -149,7 +151,6 @@ background-repeat: no-repeat;
     align-items: center;
     font-weight: lighter;
     height: 100%;
-    filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.7));
 
     span {
         -webkit-text-fill-color: black;

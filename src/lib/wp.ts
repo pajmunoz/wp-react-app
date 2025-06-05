@@ -54,7 +54,8 @@ export const getPosts = async ({ perPage = 10, lang }: { perPage?: number, lang:
 }
 
 export const getPostInfo = async (slug?: string, lang?: string) => {
-    const response = await fetch(`${apiUrl}/posts?slug=${lang === "en" ? slug : slug + "_es"}&_embed`);
+    // Detecta si el slug ya termina en _es o _en, si no, agrega el sufijo según el idioma
+    const response = await fetch(`${apiUrl}/posts?slug=${slug}&_embed`);
     try {
 
 
@@ -87,21 +88,35 @@ export const getPostInfo = async (slug?: string, lang?: string) => {
     }
 };
 
-export const getCategories = async () => {
+export const getCategories = async (lang: string) => {
     const response = await fetch(`${apiUrl}/categories`);
     if (!response.ok) throw new Error(`Error fetching categories: ${response.statusText}`);
 
     const data = await response.json();
     if (!data.length) throw new Error(`No categories found`);
 
-    return data;
+    const suffix = lang === "en" ? "-en" : "-es";
+    const filteredCategories = data.filter((cat: { slug: string }) => cat.slug.endsWith(suffix));
+
+    return filteredCategories;
 }
-export const getCategoryPosts = async (id: number,language: string) => {
+
+export const getCategoryPosts = async (id: number, language: string) => {
     const response = await fetch(`${apiUrl}/posts?categories=${id}&_embed`);
     if (!response.ok) throw new Error(`Error fetching posts: ${response.statusText}`);
 
     const data = await response.json();
     if (!data.length) throw new Error(`No posts found`);
 
-    return data;
+    const spanishPosts = data.filter((post: { slug: string }) => post.slug.endsWith(`_${language}`));
+
+    return spanishPosts;
 }
+export const getSlugForLanguage = (slug: string, language: string) => {
+    if (language === "en") {
+        return slug.endsWith("_en") ? slug : slug.replace(/_es$/, "") + "_en";
+    } else if (language === "es") {
+        return slug.endsWith("_es") ? slug : slug.replace(/_en$/, "") + "_es";
+    }
+    return slug;
+};

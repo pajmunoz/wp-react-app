@@ -8,14 +8,20 @@ import './Home.scss';
 import { Grid, Skeleton, useColorScheme } from '@mui/material';
 import CardItem from "../../components/Card/Card";
 import { useLanguage } from "../../context/LanguageContext";
+import { useEffect } from "react";
 
 
 export default function Home() {
-    const [categoryId, setCategoryId] = useState(1)
+
     const language = useLanguage();
     const isEnglish = language.language === 'en';
     const mode = useColorScheme();
     const isDarkMode = mode.mode === 'dark';
+    const [categoryId, setCategoryId] = useState(isEnglish ? 21 : 1);
+
+    useEffect(() => {
+        setCategoryId(isEnglish ? 21 : 1);
+    }, [isEnglish]);
 
     // saludo principal
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
@@ -35,7 +41,7 @@ export default function Home() {
 
     const { data: category = [], isLoading: loadingCat } = useQuery({
         queryKey: ['categories', language.language], // <--- si tus categorías dependen del idioma
-        queryFn: getCategories
+        queryFn: () => getCategories(language.language === 'en' ? 'en' : 'es'), // <--- agrega el idioma aquí,
     });
 
     const { data: posts = [], isLoading: loadingPosts } = useQuery({
@@ -55,9 +61,6 @@ export default function Home() {
                 )
                 : getPosts({ perPage: 6, lang: language.language }),
     });
-    // const scrollTo = (section:string) => {
-    //     smoother.current.scrollTo(section, true, 'center center');
-    // };
 
     const handleCategoryId = (catId: number) => setCategoryId(catId);
 
@@ -81,43 +84,43 @@ export default function Home() {
     return (
         <>
             <ScrollMenu />
-            <section id="main" className={`main hero is-fullheight ${isDarkMode?'has-background-dark':'has-background-light'}`}>
+            <section id="main" className={`main hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
                 <div className="hero-body">
                     {loadingPage ? (
                         <div className="skeleton-block" style={{ height: 300, borderRadius: 8 }} />
                     ) : (
 
-                        <HtmlContent className={'container has-text-centered'} htmlString={main.content}  themeMode={isDarkMode} />
+                        <HtmlContent className={'container has-text-centered'} htmlString={main.content} themeMode={isDarkMode} />
 
                     )}
                 </div>
             </section>
 
-            <section id="about" className={`about hero is-fullheight ${isDarkMode?'has-background-black':'has-background-grey-light'}`}>
-                <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'}/>
+            <section id="about" className={`about hero is-fullheight ${isDarkMode ? 'has-background-black' : 'has-background-grey-lighter'}`}>
+                <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        <HtmlContent className="subtitle is-size-5" htmlString={description.content} themeMode={isDarkMode}/>
+                        <HtmlContent className="subtitle is-size-5" htmlString={description.content} themeMode={isDarkMode} />
                     </div>
                 </div>
             </section>
-            <section id="links" className={`links hero is-fullheight ${isDarkMode?'has-background-dark':'has-background-light'}`}>
-                <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} themeMode={isDarkMode} titleColor={'has-text-link'}/>
+            <section id="links" className={`links hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+                <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} themeMode={isDarkMode} titleColor={'has-text-link'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        <HtmlContent className="subtitle" htmlString={links.content} themeMode={isDarkMode}/>
+                        <HtmlContent className="subtitle" htmlString={links.content} themeMode={isDarkMode} />
                     </div>
                 </div>
             </section>
-            <section id="skills" className={`skills hero is-fullheight ${isDarkMode?'has-background-black-bis':'has-background-grey-lighter'}`}>
-                <Titles title="Skills" color={'has-background-info'} themeMode={isDarkMode} titleColor={'has-text-info'}/>
+            <section id="skills" className={`skills hero is-fullheight ${isDarkMode ? 'has-background-black-bis' : 'has-background-grey-lighter'}`}>
+                <Titles title="Skills" color={'has-background-info'} themeMode={isDarkMode} titleColor={'has-text-info'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
 
                         <div className="skills-list">
                             {Object.entries(pabloJaraSkills).map(([key, value]) => (
                                 <div key={key} className="skill-category mb-4">
-                                    <p className={`is-size-3 ${isDarkMode?'has-text-light':'has-text-dark'} has-text-weight-bold`}>
+                                    <p className={`is-size-3 ${isDarkMode ? 'has-text-light' : 'has-text-dark'} has-text-weight-bold`}>
                                         {key
                                             .replace(/([A-Z])/g, ' $1')
                                             .replace(/^./, str => str.toUpperCase())
@@ -154,8 +157,8 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section id="exp" className={`exp hero is-fullheight ${isDarkMode?'has-background-dark':'has-background-light'}`}>
-                <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} themeMode={isDarkMode} titleColor={'has-text-danger'}/>
+            <section id="exp" className={`exp hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+                <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} themeMode={isDarkMode} titleColor={'has-text-danger'} />
                 <div className="container is-max-desktop">
                     <div className="hero-body is-flex-wrap-wrap is-align-content-center">
                         <div className="content">
