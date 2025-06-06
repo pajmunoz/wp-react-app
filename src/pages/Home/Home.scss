@@ -1,4 +1,5 @@
 $background_url: 'https://pablojaramunoz-com-368490.hostingersite.com/wp-content/uploads/2025/06/Texturelabs_Grunge_338S.jpg';
+
 @keyframes backgroundGradient {
     0% {
         background-position: 0% 50%;
@@ -12,13 +13,16 @@ $background_url: 'https://pablojaramunoz-com-368490.hostingersite.com/wp-content
         background-position: 0% 50%;
     }
 }
+
 @keyframes moveUpDown {
     0% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-15px);
     }
+
     100% {
         transform: translateY(0);
     }
@@ -119,6 +123,7 @@ section {
 
 #links {
     min-height: 400px;
+
     .subtitle {
         display: flex;
         flex-direction: column;
@@ -126,8 +131,9 @@ section {
         flex-wrap: wrap;
         align-items: flex-start;
     }
-    .button{
-        margin-bottom:1.5em;
+
+    .button {
+        margin-bottom: 1.5em;
     }
 }
 
@@ -150,8 +156,12 @@ background-repeat: no-repeat;
         align-items: stretch;
     }
 }
-.about ,.links, .skills  {
+
+.about,
+.links,
+.skills {
     position: relative;
+
     .title {
         align-items: stretch;
     }
@@ -168,4 +178,18 @@ background-repeat: no-repeat;
     span {
         -webkit-text-fill-color: black;
     }
+}
+
+.flair {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-image: url("https://assets.codepen.io/16327/flair-8.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    will-change: transform;
+    z-index: 999;
 }

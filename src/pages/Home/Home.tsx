@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getCategories, getCategoryPosts, getPageInfo, getPosts } from "../../lib/wp";
 import HtmlContent from "../../utils/HtmlContent";
 import { useQuery } from "@tanstack/react-query";
@@ -10,7 +10,12 @@ import CardItem from "../../components/Card/Card";
 import { useLanguage } from "../../context/LanguageContext";
 import { useEffect } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
 
+// Register only the plugins you use
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
 
@@ -23,8 +28,43 @@ export default function Home() {
     useEffect(() => {
         setCategoryId(isEnglish ? 21 : 1);
     }, [isEnglish]);
+    const container = useRef(null);
+    const box1 = useRef(null);
+    const box2 = useRef(null);
+    const box3 = useRef(null);
+    const box4 = useRef(null);
+    const box5 = useRef(null);
 
-    // saludo principal
+    useEffect(() => {
+        const sections = [box1, box2, box3, box4, box5];
+
+        sections.forEach((ref, idx) => {
+            if (ref.current) {
+            // Reset opacity and transform before animating again
+            gsap.set(ref.current, { opacity: 1, y: 0 });
+            gsap.from(ref.current, {
+                scrollTrigger: {
+                trigger: ref.current,
+                start: "top bottom",
+                end: "bottom 80%",
+                scrub: true,
+                toggleActions: "play reverse reverse reverse reverse",
+                },
+                opacity: 0,
+                y: 90,
+                duration: 1,
+                ease: "power2.out",
+                delay: idx * 0.1,
+            });
+            }
+        });
+
+        return () => {
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+            gsap.killTweensOf([box1.current, box2.current, box3.current, box4.current, box5.current]);
+        };
+    }, [ box1, box2, box3, box4, box5 ]);
+
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
         queryKey: ['page', '1main', language.language], // <--- agrega el idioma aquí
         queryFn: () => getPageInfo('1main', language.language)
@@ -83,9 +123,9 @@ export default function Home() {
     };
 
     return (
-        <>
-            <ScrollMenu />
-            <section id="main" className={`main hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+        <div ref={container} >
+
+            <section ref={box1} id="main" className={`main hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
                 <div className="hero-body">
                     {loadingPage ? (
                         <div className="skeleton-block" style={{ height: 300, borderRadius: 8 }} />
@@ -98,13 +138,13 @@ export default function Home() {
                 </div>
                 <div className="hero-foot">
                     <div className="container is-flex is-justify-content-center">
-                        <KeyboardArrowDownIcon sx={{ fontSize: 90 }} className="animate"/>
+                        <KeyboardArrowDownIcon sx={{ fontSize: 90 }} className="animate" />
                     </div>
                 </div>
 
             </section>
 
-            <section id="about" className={`about hero is-fullheight ${isDarkMode ? 'has-background-black' : 'has-background-grey-lighter'}`}>
+            <section ref={box2} id="about" className={`about hero is-fullheight ${isDarkMode ? 'has-background-black' : 'has-background-grey-lighter'}`}>
                 <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
@@ -112,7 +152,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section id="links" className={`links hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+            <section ref={box3} id="links" className={`links hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
                 <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} themeMode={isDarkMode} titleColor={'has-text-link'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
@@ -120,7 +160,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section id="skills" className={`skills hero is-fullheight ${isDarkMode ? 'has-background-black-bis' : 'has-background-grey-lighter'}`}>
+            <section ref={box4} id="skills" className={`skills hero is-fullheight ${isDarkMode ? 'has-background-black-bis' : 'has-background-grey-lighter'}`}>
                 <Titles title="Skills" color={'has-background-info'} themeMode={isDarkMode} titleColor={'has-text-info'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
@@ -165,7 +205,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section id="exp" className={`exp hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+            <section ref={box5} id="exp" className={`exp hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
                 <Titles title={isEnglish ? 'Experience' : 'Experiencia'} color={'has-background-danger'} themeMode={isDarkMode} titleColor={'has-text-danger'} />
                 <div className="container is-max-desktop">
                     <div className="hero-body is-flex-wrap-wrap is-align-content-center">
@@ -228,6 +268,6 @@ export default function Home() {
 
 
 
-        </>
+        </div>
     )
 }
