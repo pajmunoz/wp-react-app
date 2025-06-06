@@ -56,6 +56,7 @@ export default function Layout(props: Props) {
     return (
 
         <div className="layout">
+
             <div className="navigation">
                 <div className="navBar">
                     <AppBar component="nav">
@@ -112,6 +113,7 @@ export default function Layout(props: Props) {
                     {drawer}
                 </Drawer>
             </nav>
+      
             <Outlet />
         </div>
     )
