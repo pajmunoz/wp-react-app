@@ -184,7 +184,7 @@ export default function Home() {
                                         {category.map((cat: any) => (
                                             <div key={cat.id} className={categoryId === cat.id ? "cell active" : "cell"}>
                                                 <button
-                                                    className={`tag is-link mx-2  ${cat.name === 'Wordpress' ? "is-success" : cat.name === 'Angular' ? "is-primary" : cat.name === 'Sitecore' ? "is-info" : cat.name === 'React' ? "is-danger" : "is-warning"}`}
+                                                    className={`tag mx-2 has-text-light`}
                                                     onClick={() => handleCategoryId(cat.id)}
                                                 >
                                                     {cat.name}
