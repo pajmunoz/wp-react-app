@@ -15,9 +15,6 @@ export default function MainBreadcrumbs({ title }: { title?: string }) {
             <Link
                 to="/#exp"
                 className={`${isDarkMode ? 'has-text-light' : 'has-text-dark'}`}
-            // If you want to use React Router, use the Link component from 'react-router-dom' instead:
-            // import { Link as RouterLink } from 'react-router-dom';
-            // <Link component={RouterLink} to="/">Volver</Link>
             >
                 {`${isEnglish ? 'Back' : 'Volver'}`}
             </Link>

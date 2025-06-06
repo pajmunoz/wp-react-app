@@ -9,6 +9,7 @@ import { Grid, Skeleton, useColorScheme } from '@mui/material';
 import CardItem from "../../components/Card/Card";
 import { useLanguage } from "../../context/LanguageContext";
 import { useEffect } from "react";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 export default function Home() {
@@ -93,7 +94,14 @@ export default function Home() {
                         <HtmlContent className={'container has-text-centered'} htmlString={main.content} themeMode={isDarkMode} />
 
                     )}
+
                 </div>
+                <div className="hero-foot">
+                    <div className="container is-flex is-justify-content-center">
+                        <KeyboardArrowDownIcon sx={{ fontSize: 90 }} className="animate"/>
+                    </div>
+                </div>
+
             </section>
 
             <section id="about" className={`about hero is-fullheight ${isDarkMode ? 'has-background-black' : 'has-background-grey-lighter'}`}>
