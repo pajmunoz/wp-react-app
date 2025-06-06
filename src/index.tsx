@@ -44,7 +44,7 @@ root.render(
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
             <Route path='home' element={<Home />} />
-            <Route path='project/:slug' element={<Detail />} />
+            <Route path='/:slug' element={<Detail />} />
             <Route path='about' element={<About />} />
           </Route>
         </Routes>

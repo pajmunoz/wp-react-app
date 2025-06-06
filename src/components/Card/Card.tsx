@@ -24,7 +24,7 @@ export default function CardItem({ id, title, date, excerpt, featuredImage, slug
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small"> <Link to={`/project/${slug}`}>{isEnglish?'View more ▶︎':'Ver más ▶︎'}  </Link></Button>
+                <Button size="small"> <Link to={`/${slug}`}>{isEnglish?'View more ▶︎':'Ver más ▶︎'}  </Link></Button>
             </CardActions>
         </Card>
 

@@ -21,7 +21,7 @@ export default function Detail() {
         if (!slug) return;
         const newSlug = getSlugForLanguage(slug, language.language);
         if (newSlug && newSlug !== slug) {
-            navigate(`/project/${newSlug}`, { replace: true });
+            navigate(`/${newSlug}`, { replace: true });
         }
     }, [language.language, slug, navigate]);
 
