@@ -193,3 +193,18 @@ background-repeat: no-repeat;
     will-change: transform;
     z-index: 999;
 }
+
+@media (max-width: 480px) {
+    .main {
+        .columns {
+            display: flex;
+            flex-direction: row;
+
+            .column {
+                width: 50%;
+                
+            }
+        }
+
+    }
+}
