@@ -40,22 +40,22 @@ export default function Home() {
 
         sections.forEach((ref, idx) => {
             if (ref.current) {
-            // Reset opacity and transform before animating again
-            gsap.set(ref.current, { opacity: 1, y: 0 });
-            gsap.from(ref.current, {
-                scrollTrigger: {
-                trigger: ref.current,
-                start: "top bottom",
-                end: "bottom 80%",
-                scrub: true,
-                toggleActions: "play reverse reverse reverse reverse",
-                },
-                opacity: 0,
-                y: 90,
-                duration: 1,
-                ease: "power2.out",
-                delay: idx * 0.1,
-            });
+                // Reset opacity and transform before animating again
+                gsap.set(ref.current, { opacity: 1, y: 0 });
+                gsap.from(ref.current, {
+                    scrollTrigger: {
+                        trigger: ref.current,
+                        start: "top bottom",
+                        end: "bottom 80%",
+                        scrub: true,
+                        toggleActions: "play reverse reverse reverse reverse",
+                    },
+                    opacity: 0,
+                    y: 90,
+                    duration: 1,
+                    ease: "power2.out",
+                    delay: idx * 0.1,
+                });
             }
         });
 
@@ -63,7 +63,7 @@ export default function Home() {
             ScrollTrigger.getAll().forEach(trigger => trigger.kill());
             gsap.killTweensOf([box1.current, box2.current, box3.current, box4.current, box5.current]);
         };
-    }, [ box1, box2, box3, box4, box5 ]);
+    }, [box1, box2, box3, box4, box5]);
 
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
         queryKey: ['page', '1main', language.language], // <--- agrega el idioma aquí
@@ -84,7 +84,7 @@ export default function Home() {
         queryKey: ['categories', language.language], // <--- si tus categorías dependen del idioma
         queryFn: () => getCategories(language.language === 'en' ? 'en' : 'es'), // <--- agrega el idioma aquí,
     });
-
+    console.log('cat',category)
     const { data: posts = [], isLoading: loadingPosts } = useQuery({
         queryKey: ['posts', categoryId, language.language], // <--- agrega el idioma aquí
         queryFn: () =>
@@ -113,7 +113,7 @@ export default function Home() {
         toolsAndDevOps: ["Git", "GitHub", "GitLab", "NPM", "Webpack", "Gulp", "Grunt", "Azure DevOps"],
         testing: ["Jest", "Testing Library", "SonarQube"],
         cmsExperience: ["WordPress", "Sitecore", "Custom CMS"],
-        uiUxDesign: ["Figma", "Adobe Photoshop", "Illustrator", "Adobe XD"],
+        GraphicDesignUxUi: ["Figma", "Adobe Photoshop", "Illustrator", "Adobe Creative Suite", "Adobe Premiere Pro", "Adobe After Effects"],
         softSkills: ["Problem-solving", "Teamwork", "Flexibility", "Communication", "Self-learning"],
         methodologies: ["Agile", "Scrum", "Kanban"],
         languagesSpoken: {
@@ -213,7 +213,7 @@ export default function Home() {
                             <div className="subtitle">
                                 {loadingCat ? (
                                     <div className="is-flex is-justify-content-center">
-                                        {Array.from({ length: 5 }).map((_, idx) => (
+                                        {Array.from({ length: 6 }).map((_, idx) => (
                                             <div key={idx} className="cell">
                                                 <div className="tag is-skeleton" style={{ width: 90, height: 25, borderRadius: 8 }} />
                                             </div>

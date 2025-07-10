@@ -19,7 +19,6 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
     "bulma": "^1.0.4",
-    "gh-pages": "^6.3.0",
     "gsap": "^3.13.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -54,5 +53,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
