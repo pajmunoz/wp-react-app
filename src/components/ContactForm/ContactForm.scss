@@ -1,0 +1,58 @@
+.contact-form-container {
+  .contact-form {
+    .MuiTextField-root {
+      margin-bottom: 1rem;
+    }
+
+    .MuiButton-root {
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .MuiAlert-root {
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .MuiCircularProgress-root {
+    color: white;
+  }
+}
+
+// Dark mode adjustments
+.has-background-dark,
+.has-background-black,
+.has-background-black-bis {
+  .contact-form-container {
+    .MuiTextField-root {
+      .MuiOutlinedInput-root {
+        background-color: rgba(255, 255, 255, 0.05);
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+}
+
+// Light mode adjustments
+.has-background-light,
+.has-background-grey-lighter {
+  .contact-form-container {
+    .MuiTextField-root {
+      .MuiOutlinedInput-root {
+        background-color: rgba(0, 0, 0, 0.02);
+        
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+      }
+    }
+  }
+} 

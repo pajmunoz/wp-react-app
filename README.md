@@ -1,46 +1,123 @@
-# Getting Started with Create React App
+# WordPress React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern React application with WordPress integration and contact form functionality.
+
+## Features
+
+- **WordPress Integration**: Fetches content from WordPress REST API
+- **Multi-language Support**: English and Spanish
+- **Dark/Light Theme**: Toggle between themes
+- **Contact Form**: Email functionality using Resend
+- **Responsive Design**: Built with Bulma CSS framework
+- **Animations**: GSAP animations for smooth scrolling effects
+- **Material-UI Components**: Modern UI components
+
+## Contact Form Setup
+
+The app includes a contact form that sends emails using Resend. To set it up:
+
+### 1. Backend Server Setup
+
+```bash
+cd server
+npm install
+cp env.example .env
+```
+
+Edit the `.env` file with your Resend API key and email configuration.
+
+### 2. Start the Backend Server
+
+```bash
+cd server
+npm run dev
+```
+
+The server will run on `http://localhost:3001`
+
+### 3. Resend Configuration
+
+1. Sign up at [Resend](https://resend.com)
+2. Get your API key from the dashboard
+3. Add your API key to the server `.env` file
+4. Configure your email addresses
+
+### 4. Test the Contact Form
+
+Start both the React app and the backend server, then test the contact form in the Contact section.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+- WordPress site with REST API enabled
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure WordPress API in `src/lib/wp.ts`
+
+4. Start the development server:
+   ```bash
+   npm start
+   ```
+
+5. For contact form functionality, also start the backend server:
+   ```bash
+   cd server
+   npm run dev
+   ```
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `npm start` - Start the development server
+- `npm run build` - Build for production
+- `npm test` - Run tests
+- `npm run deploy` - Deploy to GitHub Pages
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+src/
+├── components/          # Reusable components
+│   ├── ContactForm/    # Contact form with Resend
+│   ├── Card/          # Post cards
+│   ├── Layout/        # Main layout
+│   └── ...
+├── pages/             # Page components
+├── context/           # React context
+├── lib/              # WordPress API utilities
+└── utils/            # Utility functions
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+server/               # Backend server for email functionality
+├── server.js        # Express server with Resend
+├── package.json     # Server dependencies
+└── README.md        # Server setup instructions
+```
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Frontend**: React, TypeScript, Material-UI, Bulma
+- **Backend**: Node.js, Express, Resend
+- **Animations**: GSAP
+- **State Management**: React Query
+- **Styling**: SCSS, Material-UI
 
-### `npm run build`
+## Contributing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project is licensed under the MIT License.

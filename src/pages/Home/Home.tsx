@@ -6,6 +6,7 @@ import Titles from "../../components/Titles/Titles";
 import './Home.scss';
 import { Grid, Skeleton, Typography, useColorScheme } from '@mui/material';
 import CardItem from "../../components/Card/Card";
+import ContactForm from "../../components/ContactForm/ContactForm";
 import { useLanguage } from "../../context/LanguageContext";
 import { useEffect } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -33,9 +34,10 @@ export default function Home() {
     const box3 = useRef(null);
     const box4 = useRef(null);
     const box5 = useRef(null);
+    const box6 = useRef(null);
 
     useEffect(() => {
-        const sections = [box1, box2, box3, box4, box5];
+        const sections = [box1, box2, box3, box4, box5, box6];
 
         sections.forEach((ref, idx) => {
             if (ref.current) {
@@ -281,6 +283,12 @@ export default function Home() {
                     </div>
                 </div>
             </section >
+            <section ref={box6} id="contact" className={`contact hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+                <Titles title={isEnglish ? 'Contact' : 'Contacto'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'} />
+                <div className="hero-body is-flex-wrap-wrap is-align-content-center">
+                    <ContactForm isDarkMode={isDarkMode} />
+                </div>
+            </section>
 
 
 
