@@ -283,7 +283,7 @@ export default function Home() {
                     </div>
                 </div>
             </section >
-            <section ref={box6} id="contact" className={`contact hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+            <section ref={box6} id="contact" className={`contact hero is-fullheight ${isDarkMode ? 'has-background-black-bis' : 'has-background-grey-lighter'}`}>
                 <Titles title={isEnglish ? 'Contact' : 'Contacto'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'} />
                 <div className="hero-body is-flex-wrap-wrap is-align-content-center">
                     <ContactForm isDarkMode={isDarkMode} />

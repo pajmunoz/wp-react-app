@@ -74,19 +74,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ isDarkMode }) => {
     };
 
     return (
-        <Box className="contact-form-container" sx={{ maxWidth: 600, mx: 'auto', p: 3 }}>
-            <Typography
-                variant="h4"
-                component="h2"
-                gutterBottom
-                sx={{
-                    color: isDarkMode ? 'white' : 'black',
-                    textAlign: 'center',
-                    mb: 4
-                }}
-            >
-                {isEnglish ? 'Get in Touch' : 'Ponte en Contacto'}
-            </Typography>
+        <Box className="container is-max-desktop">
+            <div className="hero-body is-flex-wrap-wrap is-align-content-center">
 
             {submitStatus === 'success' && (
                 <Alert severity="success" sx={{ mb: 3 }}>
@@ -239,7 +228,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ isDarkMode }) => {
                     )}
                 </Button>
             </form>
+            </div>
         </Box>
+
     );
 };
 
