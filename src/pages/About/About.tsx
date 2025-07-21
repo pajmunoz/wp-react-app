@@ -1,7 +1,7 @@
 
 import { getPageInfo } from '../../lib/wp'
 import HtmlContent from '../../utils/HtmlContent'
-import { Box, Container, useColorScheme } from '@mui/material';
+import { Box, Container, Skeleton, useColorScheme } from '@mui/material';
 import { useLanguage } from '../../context/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import MainBreadcrumbs from '../../components/MainBreadcrumbs/MainBreadcrumbs';
@@ -21,11 +21,23 @@ export default function About() {
         <section className="hero is-large">
 
             <div className="hero-body" >
-                <MainBreadcrumbs title={detail.title} />
-                <Container sx={{ my: 2 }}>
-                    <h1 className='has-text-weight-extrabold'><HtmlContent htmlString={detail.title} /></h1>
-                    <Box sx={{ mt: 1 }}><HtmlContent htmlString={detail.content} /></Box>
-                </Container>
+                <MainBreadcrumbs title={loadingPage ? <Skeleton animation="wave" style={{ width: '100px' }} /> : detail.title} />
+                {loadingPage ? (
+                    <div className="subtitle is-size-5">
+                        <Skeleton animation="wave" />
+                        <Skeleton animation="wave" />
+                        <Skeleton animation="wave" />
+                        <Skeleton animation="wave" />
+                        <Skeleton animation="wave" />
+                        <Skeleton animation="wave" />
+                    </div>
+                ) : (
+                    <Container sx={{ my: 2 }}>
+                        <h1 className='has-text-weight-extrabold'><HtmlContent htmlString={detail.title} /></h1>
+                        <Box sx={{ mt: 1 }}><HtmlContent htmlString={detail.content} /></Box>
+                    </Container>
+                )}
+
             </div>
 
         </section>

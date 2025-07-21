@@ -3,9 +3,8 @@ import { getCategories, getCategoryPosts, getPageInfo, getPosts } from "../../li
 import HtmlContent from "../../utils/HtmlContent";
 import { useQuery } from "@tanstack/react-query";
 import Titles from "../../components/Titles/Titles";
-import ScrollMenu from "../../components/ScrollMenu/ScrollMenu";
 import './Home.scss';
-import { Grid, Skeleton, useColorScheme } from '@mui/material';
+import { Grid, Skeleton, Typography, useColorScheme } from '@mui/material';
 import CardItem from "../../components/Card/Card";
 import { useLanguage } from "../../context/LanguageContext";
 import { useEffect } from "react";
@@ -84,7 +83,7 @@ export default function Home() {
         queryKey: ['categories', language.language], // <--- si tus categorías dependen del idioma
         queryFn: () => getCategories(language.language === 'en' ? 'en' : 'es'), // <--- agrega el idioma aquí,
     });
-    console.log('cat',category)
+    console.log('cat', category)
     const { data: posts = [], isLoading: loadingPosts } = useQuery({
         queryKey: ['posts', categoryId, language.language], // <--- agrega el idioma aquí
         queryFn: () =>
@@ -128,7 +127,14 @@ export default function Home() {
             <section ref={box1} id="main" className={`main hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
                 <div className="hero-body">
                     {loadingPage ? (
-                        <div className="skeleton-block" style={{ height: 300, borderRadius: 8 }} />
+                        <div className="container is-max-desktop">
+                            <Typography variant="h1">
+                                <Skeleton animation="wave" />
+                            </Typography>
+
+                            <Skeleton animation="wave" />
+                            <Skeleton animation="wave" />
+                        </div>
                     ) : (
 
                         <HtmlContent className={'container has-text-centered'} htmlString={main.content} themeMode={isDarkMode} />
@@ -148,7 +154,17 @@ export default function Home() {
                 <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        <HtmlContent className="subtitle is-size-5" htmlString={description.content} themeMode={isDarkMode} />
+                        {loadingDesc ? (    
+                            <div className="subtitle is-size-5">
+                                <Skeleton animation="wave" />
+                                <Skeleton animation="wave" />
+                                <Skeleton animation="wave" />
+                                <Skeleton animation="wave" />
+                                <Skeleton animation="wave" />
+                            </div>
+                        ) : (
+                            <HtmlContent className="subtitle is-size-5" htmlString={description.content} themeMode={isDarkMode} />
+                        )}
                     </div>
                 </div>
             </section>

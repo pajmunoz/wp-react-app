@@ -33,18 +33,20 @@ export default function Detail() {
 
     return (
         <>
-            <section className={`hero is-small is-primary ${isDarkMode?'has-text-dark':'has-text-light'}`} >
+            <section className={`hero is-small is-primary ${isDarkMode ? 'has-text-dark' : 'has-text-light'}`} >
                 <div className="hero-body">
 
                     <h1 className="is-size-2 has-text-darker">{isEnglish ? 'Project' : 'Proyecto'}</h1>
-                    <MainBreadcrumbs title={post.title}/>
+                    <MainBreadcrumbs title={isLoading ? <Skeleton animation="wave" style={{ width: '100px' }} /> : post.title} />
                 </div>
             </section>
             <div className={`container is-max-desktop`}>
                 <section className="section">
                     <div className="hero-body">
                         <div className="is-size-3">{isEnglish ? 'Experience' : 'Experiencia'}</div>
-                        {!post?.content ? <Skeleton animation="wave" /> : <HtmlDetailContent htmlString={post.content} className={`detail ${post.title}`} />}
+                        {!post?.content ? <Skeleton variant="rectangular" width="100%">
+                            <div style={{ paddingTop: '57%' }} />
+                        </Skeleton> : <HtmlDetailContent htmlString={post.content} className={`detail ${post.title}`} />}
                     </div>
                     <em>{isEnglish ? '* Some images may lose quality due to active NDA nor performance' : '* Algunas imagenes pueden perder calidad debido a NDA vigente o por optimización'}</em>
                 </section>

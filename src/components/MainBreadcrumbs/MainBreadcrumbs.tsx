@@ -1,4 +1,4 @@
-import { Typography, useColorScheme } from '@mui/material';
+import { Skeleton, Typography, useColorScheme } from '@mui/material';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
@@ -19,7 +19,9 @@ export default function MainBreadcrumbs({ title }: { title?: string }) {
                 {`${isEnglish ? 'Back' : 'Volver'}`}
             </Link>
 
-            <Typography sx={{ color: 'text.primary' }}><b>{title}</b></Typography>
+            <Typography sx={{ color: 'text.primary' }}>
+                <b>{title}</b>
+            </Typography>
         </Breadcrumbs>
     </>
     )
