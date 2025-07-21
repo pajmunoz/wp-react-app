@@ -24,10 +24,6 @@ export default function Home() {
     const mode = useColorScheme();
     const isDarkMode = mode.mode === 'dark';
     const [categoryId, setCategoryId] = useState(isEnglish ? 21 : 1);
-
-    useEffect(() => {
-        setCategoryId(isEnglish ? 21 : 1);
-    }, [isEnglish]);
     const container = useRef(null);
     const box1 = useRef(null);
     const box2 = useRef(null);
@@ -35,36 +31,143 @@ export default function Home() {
     const box4 = useRef(null);
     const box5 = useRef(null);
     const box6 = useRef(null);
+    const [loadingProgress, setLoadingProgress] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const sections = [box1, box2, box3, box4, box5, box6];
+        const TOTAL_FRAMES = 83;
+        const createURL = (frame: number) => {
+            const id = (frame + 1).toString().padStart(2, '0');
+            return `https://pablojaramunoz.com/videos/video3webp/${id}.webp`;
+        }
+        const images: HTMLImageElement[] = [];
+        let loadedCount = 0;
+        const loadImage = (index: number): Promise<HTMLImageElement> => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const imageUrl = createURL(index);
 
-        sections.forEach((ref, idx) => {
-            if (ref.current) {
-                // Reset opacity and transform before animating again
-                gsap.set(ref.current, { opacity: 1, y: 0 });
-                gsap.from(ref.current, {
-                    scrollTrigger: {
-                        trigger: ref.current,
-                        start: "top bottom",
-                        end: "bottom 80%",
-                        scrub: true,
-                        toggleActions: "play reverse reverse reverse reverse",
-                    },
-                    opacity: 0,
-                    y: 90,
-                    duration: 1,
-                    ease: "power2.out",
-                    delay: idx * 0.1,
-                });
-            }
-        });
 
-        return () => {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-            gsap.killTweensOf([box1.current, box2.current, box3.current, box4.current, box5.current]);
+                img.onload = () => {
+                    loadedCount++;
+                    setLoadingProgress((loadedCount / TOTAL_FRAMES) * 100);
+                    resolve(img);
+                };
+                img.onerror = () => {
+                    console.error(`Failed to load image ${index + 1}: ${imageUrl}`);
+                    reject(new Error(`Failed to load image ${index + 1}: ${imageUrl}`));
+                };
+                img.src = imageUrl;
+            });
         };
-    }, [box1, box2, box3, box4, box5]);
+
+        const loadImages = async () => {
+            const loadAllImages = async () => {
+                try {
+                    const imagePromises = Array.from({ length: TOTAL_FRAMES }, (_, index) =>
+                        loadImage(index)
+                    );
+
+                    const loadedImages = await Promise.all(imagePromises);
+                    images.push(...loadedImages);
+
+                    // All images loaded successfully
+                    setIsLoading(false);
+                    initializeAnimations(images);
+                } catch (error) {
+                    console.error('Error loading images:', error);
+                    setIsLoading(false);
+                    // You could show an error message here
+                }
+            };
+
+            loadAllImages();
+
+            const initializeAnimations = (images: HTMLImageElement[]) => {
+
+                const imageCanvas = {
+                    frame: 0,
+                }
+                const tl = gsap.timeline({
+                    defaults: {
+                        duration: 2,
+                        ease: 'power2.inOut',
+                        yoyo: true,
+                    },
+                });
+                tl.to(imageCanvas, {
+                    frame: TOTAL_FRAMES - 1,
+                    ease: 'none',
+                    snap: 'frame',
+                    duration: 1,
+                    scrollTrigger: {
+                        scrub: 0.1,
+                    },
+                    onUpdate: render,
+
+                })
+
+                function render() {
+                    const canvas = document.getElementById('image') as HTMLCanvasElement | null;
+                    if (!canvas) return;
+                    // Set canvas size if not already set
+                    const dpr = window.devicePixelRatio || 1;
+                    const desiredWidth = 1800;
+                    const desiredHeight = 1000;
+                    canvas.width = desiredWidth * dpr;
+                    canvas.height = desiredHeight * dpr;
+
+                    const ctx = canvas.getContext('2d');
+                    if (ctx) {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(images[imageCanvas.frame], 0, 0, canvas.width, canvas.height);
+                    }
+                }
+
+                // Start rendering
+                render();
+            }
+
+
+            const canvas = document.getElementById('canvas') as HTMLCanvasElement | null;
+            const ctx = canvas?.getContext('2d');
+            if (canvas && ctx) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+
+            setCategoryId(isEnglish ? 21 : 1);
+            const sections = [box1, box2, box3, box4, box5, box6];
+
+            sections.forEach((ref, idx) => {
+                if (ref.current) {
+                    // Reset opacity and transform before animating again
+                    gsap.set(ref.current, { opacity: 1, y: 0 });
+                    gsap.from(ref.current, {
+                        scrollTrigger: {
+                            trigger: ref.current,
+                            start: "top bottom",
+                            end: "bottom 80%",
+                            scrub: true,
+                            toggleActions: "play reverse reverse reverse reverse",
+                        },
+                        opacity: 0,
+                        y: 90,
+                        duration: 1,
+                        ease: "power2.out",
+                        delay: idx * 0.1,
+                    });
+                }
+            });
+
+            return () => {
+                ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+                gsap.killTweensOf([box1.current, box2.current, box3.current, box4.current, box5.current, box6.current]);
+            };
+        };
+        loadImages();
+    }, [box1, box2, box3, box4, box5, box6, isEnglish]);
 
     const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
         queryKey: ['page', '1main', language.language], // <--- agrega el idioma aquí
@@ -85,7 +188,7 @@ export default function Home() {
         queryKey: ['categories', language.language], // <--- si tus categorías dependen del idioma
         queryFn: () => getCategories(language.language === 'en' ? 'en' : 'es'), // <--- agrega el idioma aquí,
     });
-    console.log('cat', category)
+    //console.log('cat', category)
     const { data: posts = [], isLoading: loadingPosts } = useQuery({
         queryKey: ['posts', categoryId, language.language], // <--- agrega el idioma aquí
         queryFn: () =>
@@ -127,6 +230,7 @@ export default function Home() {
         <div ref={container} >
 
             <section ref={box1} id="main" className={`main hero is-fullheight ${isDarkMode ? 'has-background-dark' : 'has-background-light'}`}>
+                <canvas id="image"></canvas>
                 <div className="hero-body">
                     {loadingPage ? (
                         <div className="container is-max-desktop">
@@ -138,8 +242,9 @@ export default function Home() {
                             <Skeleton animation="wave" />
                         </div>
                     ) : (
-
-                        <HtmlContent className={'container has-text-centered'} htmlString={main.content} themeMode={isDarkMode} />
+                        <div className="container-main" style={{ backgroundColor: `${isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'}` }}>
+                            <HtmlContent className={'has-text-centered'} htmlString={main.content} themeMode={isDarkMode} />
+                        </div>
 
                     )}
 
@@ -156,7 +261,7 @@ export default function Home() {
                 <Titles title={isEnglish ? 'About me' : 'Sobre mi'} color={'has-background-primary'} themeMode={isDarkMode} titleColor={'has-text-primary'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        {loadingDesc ? (    
+                        {loadingDesc ? (
                             <div className="subtitle is-size-5">
                                 <Skeleton animation="wave" />
                                 <Skeleton animation="wave" />
