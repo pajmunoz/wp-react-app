@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
-import { getCategories, getCategoryPosts, getPageInfo, getPosts } from "../../lib/wp";
 import HtmlContent from "../../utils/HtmlContent";
-import { useQuery } from "@tanstack/react-query";
 import Titles from "../../components/Titles/Titles";
 import './Home.scss';
 import { Grid, Skeleton, Typography, useColorScheme } from '@mui/material';
 import CardItem from "../../components/Card/Card";
 import ContactForm from "../../components/ContactForm/ContactForm";
 import { useLanguage } from "../../context/LanguageContext";
+import { useWordPressData } from "../../hooks/useWordPressData";
+import { FallbackContent } from "../../components/FallbackContent/FallbackContent";
 import { useEffect } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { gsap } from 'gsap';
@@ -169,43 +169,25 @@ export default function Home() {
         loadImages();
     }, [box1, box2, box3, box4, box5, box6, isEnglish]);
 
-    const { data: main = { content: '' }, isLoading: loadingPage } = useQuery({
-        queryKey: ['page', '1main', language.language], // <--- agrega el idioma aquí
-        queryFn: () => getPageInfo('1main', language.language)
-    });
-
-    const { data: description = { content: '' }, isLoading: loadingDesc } = useQuery({
-        queryKey: ['page', '2description', language.language], // <--- agrega el idioma aquí
-        queryFn: () => getPageInfo('2description', language.language)
-    });
-
-    const { data: links = { content: '' }, isLoading: loadingLinks } = useQuery({
-        queryKey: ['page', '3links', language.language], // <--- agrega el idioma aquí
-        queryFn: () => getPageInfo('3links', language.language)
-    });
-
-    const { data: category = [], isLoading: loadingCat } = useQuery({
-        queryKey: ['categories', language.language], // <--- si tus categorías dependen del idioma
-        queryFn: () => getCategories(language.language === 'en' ? 'en' : 'es'), // <--- agrega el idioma aquí,
-    });
-    //console.log('cat', category)
-    const { data: posts = [], isLoading: loadingPosts } = useQuery({
-        queryKey: ['posts', categoryId, language.language], // <--- agrega el idioma aquí
-        queryFn: () =>
-            categoryId
-                ? getCategoryPosts(categoryId, language.language).then(response =>
-                    response.map((post: any) => ({
-                        ...post,
-                        title: post.title?.rendered ?? post.title,
-                        date: post.date?.rendered ?? post.date,
-                        excerpt: post.excerpt?.rendered ?? post.excerpt,
-                        content: post.content?.rendered ?? post.content,
-                        featuredImage: post._embedded?.["wp:featuredmedia"]?.[0]?.media_details.sizes.medium.source_url ?? null,
-                        slug: post.slug,
-                    }))
-                )
-                : getPosts({ perPage: 6, lang: language.language }),
-    });
+    const { usePageInfo, useCategories, usePosts, useCategoryPosts, usePreloadCategoryPosts, usePreloadAlternativeLanguage } = useWordPressData();
+    
+    const { data: main = { content: '' }, isLoading: loadingPage } = usePageInfo('1main');
+    const { data: description = { content: '' }, isLoading: loadingDesc } = usePageInfo('2description');
+    const { data: links = { content: '' }, isLoading: loadingLinks } = usePageInfo('3links');
+    const { data: category = [], isLoading: loadingCat } = useCategories();
+    
+    // Precargar posts de todas las categorías en segundo plano
+    usePreloadCategoryPosts(category);
+    
+    // Precargar datos del idioma alternativo en segundo plano
+    usePreloadAlternativeLanguage();
+    
+    // Usar posts por categoría si hay categoryId seleccionado, sino usar posts generales
+    const { data: categoryPosts = [], isLoading: loadingCategoryPosts } = useCategoryPosts(categoryId);
+    const { data: generalPosts = [], isLoading: loadingGeneralPosts } = usePosts(6);
+    
+    const posts = categoryId ? categoryPosts : generalPosts;
+    const loadingPosts = categoryId ? loadingCategoryPosts : loadingGeneralPosts;
 
     const handleCategoryId = (catId: number) => setCategoryId(catId);
 
@@ -241,11 +223,12 @@ export default function Home() {
                             <Skeleton animation="wave" />
                             <Skeleton animation="wave" />
                         </div>
-                    ) : (
+                    ) : main.content ? (
                         <div className="container-main" style={{ backgroundColor: `${isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'}` }}>
                             <HtmlContent className={'has-text-centered'} htmlString={main.content} themeMode={isDarkMode} />
                         </div>
-
+                    ) : (
+                        <FallbackContent type="page" isDarkMode={isDarkMode} />
                     )}
 
                 </div>
@@ -269,8 +252,10 @@ export default function Home() {
                                 <Skeleton animation="wave" />
                                 <Skeleton animation="wave" />
                             </div>
-                        ) : (
+                        ) : description.content ? (
                             <HtmlContent className="subtitle is-size-5" htmlString={description.content} themeMode={isDarkMode} />
+                        ) : (
+                            <FallbackContent type="page" isDarkMode={isDarkMode} />
                         )}
                     </div>
                 </div>
@@ -279,7 +264,11 @@ export default function Home() {
                 <Titles title={isEnglish ? 'Links' : 'Enlaces'} color={'has-background-link'} themeMode={isDarkMode} titleColor={'has-text-link'} />
                 <div className="hero-body is-flex-wrap-wrap">
                     <div className="container is-max-desktop">
-                        <HtmlContent className="subtitle" htmlString={links.content} themeMode={isDarkMode} />
+                        {links.content ? (
+                            <HtmlContent className="subtitle" htmlString={links.content} themeMode={isDarkMode} />
+                        ) : (
+                            <FallbackContent type="page" isDarkMode={isDarkMode} />
+                        )}
                     </div>
                 </div>
             </section>
@@ -342,7 +331,7 @@ export default function Home() {
                                             </div>
                                         ))}
                                     </div>
-                                ) : (
+                                ) : category.length > 0 ? (
                                     <div className="is-flex is-justify-content-center">
                                         {category.map((cat: any) => (
                                             <div key={cat.id} className={categoryId === cat.id ? "cell active" : "cell"}>
@@ -355,6 +344,8 @@ export default function Home() {
                                             </div>
                                         ))}
                                     </div>
+                                ) : (
+                                    <FallbackContent type="categories" isDarkMode={isDarkMode} />
                                 )}
                             </div>
 
@@ -377,9 +368,13 @@ export default function Home() {
                                     ))
 
 
-                                    : (posts as any[]).map((post: any) =>
+                                    : posts.length > 0 ? (posts as any[]).map((post: any) =>
 
                                         <Grid key={post.id} size={{ xs: 12, sm: 4, md: 4 }}><CardItem {...post} className="cell" isEnglish={isEnglish} />
+                                        </Grid>
+                                    ) : (
+                                        <Grid size={{ xs: 12 }}>
+                                            <FallbackContent type="posts" isDarkMode={isDarkMode} />
                                         </Grid>
                                     )
                                 }

@@ -11,9 +11,20 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LanguageProvider } from './context/LanguageContext';
-import { purple,lime } from '@mui/material/colors';
+import { CacheProvider } from './context/CacheContext';
+import { DataPreloader } from './components/DataPreloader/DataPreloader';
+/*import { PerformanceIndicator } from './components/PerformanceIndicator/PerformanceIndicator';
+import { purple,lime } from '@mui/material/colors';*/
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutos por defecto
+      gcTime: 10 * 60 * 1000, // 10 minutos por defecto
+    },
+  },
+});
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -35,23 +46,27 @@ const theme = createTheme({
 
 root.render(
   <LanguageProvider>
-  <QueryClientProvider client={queryClient}>
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BrowserRouter basename="/">
-        <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path='home' element={<Home />} />
-            <Route path='/:slug' element={<Detail />} />
-            <Route path='about' element={<About />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      </ThemeProvider>
-    </React.StrictMode>
-  </QueryClientProvider>
+    <CacheProvider>
+      <QueryClientProvider client={queryClient}>
+        <React.StrictMode>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <DataPreloader>
+              <BrowserRouter basename="/">
+                <Routes>
+                  <Route path='/' element={<Layout />}>
+                    <Route index element={<Home />} />
+                    <Route path='home' element={<Home />} />
+                    <Route path='/:slug' element={<Detail />} />
+                    <Route path='about' element={<About />} />
+                  </Route>
+                </Routes>
+              </BrowserRouter>
+            </DataPreloader>
+          </ThemeProvider>
+        </React.StrictMode>
+      </QueryClientProvider>
+    </CacheProvider>
   </LanguageProvider>
 );
 
