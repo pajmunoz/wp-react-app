@@ -332,7 +332,7 @@ export default function Home() {
                                         ))}
                                     </div>
                                 ) : category.length > 0 ? (
-                                    <div className="is-flex is-justify-content-center">
+                                    <div className="is-flex is-justify-content-center is-flex-wrap-wrap">
                                         {category.map((cat: any) => (
                                             <div key={cat.id} className={categoryId === cat.id ? "cell active" : "cell"}>
                                                 <button
